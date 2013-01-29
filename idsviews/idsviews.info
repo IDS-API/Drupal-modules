@@ -2,7 +2,7 @@
 name = IDS Views
 description = Query the collection of IDS documents and organisations using Views
 core = 7.x
-version = "7.x-1.0-beta1"
+version = "7.x-1.0-beta2"
 package = IDS
 
 files[] = idsviews.module
@@ -18,6 +18,7 @@ files[] = handlers/idsviews_handler_filter_dataset.inc
 files[] = handlers/idsviews_handler_filter_regions.inc
 files[] = handlers/idsviews_handler_filter_countries.inc
 files[] = handlers/idsviews_handler_filter_themes.inc
+files[] = handlers/idsviews_handler_filter_subjects.inc
 files[] = handlers/idsviews_handler_sort.inc
 
 dependencies[] = "idsapi"

@@ -99,8 +99,8 @@ function idsimport_feeds_plugins() {
   );
   $info['IdsCategoriesParser'] = array(
     'name' => 'IDS Categories Parser',
-    'description' => 'Parse IDS regions and themes.',
-    'help' => 'Parse IDS regions and themes.',
+    'description' => 'Parse IDS regions, themes and subjects.',
+    'help' => 'Parse IDS regions, themes and subjects.',
     'handler' => array(
       'parent' => 'FeedsParser',
       'class' => 'IdsCategoriesParser',

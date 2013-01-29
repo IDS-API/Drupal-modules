@@ -197,6 +197,30 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['empty_zero'] = 0;
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
+
+  /* Field: IDS: Subjects */
+  $handler->display->display_options['fields']['category_subject_array']['id'] = 'category_subject_array';
+  $handler->display->display_options['fields']['category_subject_array']['table'] = 'idsviews_documents';
+  $handler->display->display_options['fields']['category_subject_array']['field'] = 'category_subject_array';
+  $handler->display->display_options['fields']['category_subject_array']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['hide_empty'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['hide_alter_empty'] = 0;
+
   /* Field: IDS: Countries */
   $handler->display->display_options['fields']['country_focus_array']['id'] = 'country_focus_array';
   $handler->display->display_options['fields']['country_focus_array']['table'] = 'idsviews_documents';
@@ -437,6 +461,19 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['operator'] = 'theme_filter_op';
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
+
+  /* Filter criterion: IDS: Subjects */
+  $handler->display->display_options['filters']['subject_filter']['id'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['table'] = 'idsviews_documents';
+  $handler->display->display_options['filters']['subject_filter']['field'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['value'] = array();
+  $handler->display->display_options['filters']['subject_filter']['group'] = 1;
+  $handler->display->display_options['filters']['subject_filter']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['subject_filter']['expose']['operator_id'] = '';
+  $handler->display->display_options['filters']['subject_filter']['expose']['label'] = 'Subject';
+  $handler->display->display_options['filters']['subject_filter']['expose']['operator'] = 'subject_filter_op';
+  $handler->display->display_options['filters']['subject_filter']['expose']['identifier'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['expose']['multiple'] = 1;
 
   /* Filter criterion: IDS: Author(s) */
   $handler->display->display_options['filters']['author_filter']['id'] = 'author_filter';
@@ -1099,6 +1136,29 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['empty_zero'] = 0;
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
+  /* Field: IDS: Subjects */
+  $handler->display->display_options['fields']['category_subject_array']['id'] = 'category_subject_array';
+  $handler->display->display_options['fields']['category_subject_array']['table'] = 'idsviews_organisations';
+  $handler->display->display_options['fields']['category_subject_array']['field'] = 'category_subject_array';
+  $handler->display->display_options['fields']['category_subject_array']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['hide_empty'] = 1;
+  $handler->display->display_options['fields']['category_subject_array']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['category_subject_array']['hide_alter_empty'] = 0;
+
   /* Field: IDS: Regions */
   $handler->display->display_options['fields']['category_region_array']['id'] = 'category_region_array';
   $handler->display->display_options['fields']['category_region_array']['table'] = 'idsviews_organisations';
@@ -1315,6 +1375,19 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['operator'] = 'theme_filter_op';
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
+
+  /* Filter criterion: IDS: Subjects */
+  $handler->display->display_options['filters']['subject_filter']['id'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['table'] = 'idsviews_organisations';
+  $handler->display->display_options['filters']['subject_filter']['field'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['value'] = array();
+  $handler->display->display_options['filters']['subject_filter']['group'] = 1;
+  $handler->display->display_options['filters']['subject_filter']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['subject_filter']['expose']['operator_id'] = '';
+  $handler->display->display_options['filters']['subject_filter']['expose']['label'] = 'Subject';
+  $handler->display->display_options['filters']['subject_filter']['expose']['operator'] = 'subject_filter_op';
+  $handler->display->display_options['filters']['subject_filter']['expose']['identifier'] = 'subject_filter';
+  $handler->display->display_options['filters']['subject_filter']['expose']['multiple'] = 1;
 
   /* Filter criterion: IDS: Regions */
   $handler->display->display_options['filters']['region_filter']['id'] = 'region_filter';

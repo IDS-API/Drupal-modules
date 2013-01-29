@@ -38,7 +38,7 @@ function idsimport_settings_form() {
   $form['general']['assets'] = array (
     '#type' => 'fieldset',
     '#title' => t('General importing settings'),
-    '#description' => t('These settings apply both to manual and periodic automatic imports of <b>documents</b> and <b>organisations</b>.<br>Please note that no partial importing is available for categories (regions, themes and countries):<br> if chosen, all of the items in the categories sets are imported in order to preserve the internal coherence of the data.'),
+    '#description' => t('These settings apply both to manual and periodic automatic imports of <b>documents</b> and <b>organisations</b>.<br>Please note that no partial importing is available for categories (regions, themes, subjects and countries):<br> if chosen, all of the items in the categories sets are imported in order to preserve the internal coherence of the data.'),
     '#prefix' => '<div class="idsimport-form-general">',
     '#suffix' => '</div>',
   );
@@ -104,7 +104,7 @@ function idsimport_settings_form() {
   
   $form['enable']['idsimport_check_enable_categories'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable periodic importing of IDS categories (regions, countries, themes).'),
+    '#title' => t('Enable periodic importing of IDS categories (regions, countries, themes, subjects).'),
     '#default_value' => variable_get('idsimport_check_enable_categories', FALSE),
   );
 
@@ -205,6 +205,7 @@ function idsimport_settings_form() {
     '#options' => array(
       IDS_IMPORT_IMPORTER_REGIONS => t('Regions'),
       IDS_IMPORT_IMPORTER_THEMES => t('Themes'),
+      IDS_IMPORT_IMPORTER_SUBJECTS => t('Subjects'),
       IDS_IMPORT_IMPORTER_COUNTRIES => t('Countries'),
      ),
     '#states' => array(
@@ -240,7 +241,7 @@ function idsimport_settings_form() {
         ':input[name="idsimport_check_enable_categories"]' => array('checked' => TRUE),
       ),
     ),
-    '#description' => t('Choose how often IDS categories (regions, themes, countries) should be imported (<a href="@cronurl">requires cron to be configured</a>).', array('@cronurl' => url('admin/config/system/cron'))),
+    '#description' => t('Choose how often IDS categories (regions, themes, subjects, countries) should be imported (<a href="@cronurl">requires cron to be configured</a>).', array('@cronurl' => url('admin/config/system/cron'))),
   );
 
   $form['enable'][] = array(
@@ -272,6 +273,7 @@ function idsimport_settings_form() {
       IDS_IMPORT_IMPORTER_REGIONS => t('Regions'),
       IDS_IMPORT_IMPORTER_COUNTRIES => t('Countries'),
       IDS_IMPORT_IMPORTER_THEMES => t('Themes'),
+      IDS_IMPORT_IMPORTER_SUBJECTS => t('Subjects'),
      ),
     '#states' => array(
       'visible' => array(
@@ -325,6 +327,7 @@ function idsimport_settings_form() {
       IDS_IMPORT_ORGANISATIONS_TYPE => t('Organisations'),
       IDS_IMPORT_REGIONS_VOCABULARY => t('Regions'),
       IDS_IMPORT_THEMES_VOCABULARY => t('Themes'),
+      IDS_IMPORT_SUBJECTS_VOCABULARY => t('Subjects'),
       IDS_IMPORT_COUNTRIES_VOCABULARY => t('Countries'),
      ),
     '#required' => FALSE,

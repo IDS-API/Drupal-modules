@@ -44,7 +44,7 @@ function idsimport_install() {
       }    
     }
   }
-  // Create vocabularies for IDS Regions, Themes, Countries. Content types for IDS Documents, Organisations are created through hook_node_info
+  // Create vocabularies for IDS Regions, Themes, Subjects, Countries. Content types for IDS Documents, Organisations are created through hook_node_info
   $vocabularies = idsimport_vocabularies();
   foreach ($vocabularies as $vocabulary) {
     if (!taxonomy_vocabulary_machine_name_load($vocabulary['machine_name'])) {

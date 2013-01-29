@@ -47,6 +47,8 @@ class IdsApiObject {
           return new IdsApiObjectAssetOrganisation($object);
         case 'themes':
           return new IdsApiObjectCategory($object);
+        case 'subjects':
+          return new IdsApiObjectCategory($object);
         case 'regions':
           return new IdsApiObjectCategory($object);
         case 'countries':
@@ -109,6 +111,9 @@ abstract class IdsApiObjectAsset extends IdsApiObject {
   // Themes. Array of themes (IdsObjectCategory). Thematic categories which apply to the document or organisation.
   public $category_theme_array;
 
+  // Themes. Array of subjects (IdsObjectCategory). Subject-based categories which apply to the document or organisation.
+  public $category_subject_array;
+
   // Regions. Array of regions (IdsApiObjectCategory). Regions in which the organisation operates or which apply to the document.
   public $category_region_array;
 
@@ -138,6 +143,9 @@ abstract class IdsApiObjectAsset extends IdsApiObject {
     }
     if (isset($object['category_theme_array'])) {
       $this->category_theme_array = build_array_categories($object['category_theme_array']);
+    }
+    if (isset($object['category_subject_array'])) {
+      $this->category_subject_array = build_array_categories($object['category_subject_array']);
     }
     if (isset($object['category_region_array'])) {
       $this->category_region_array = build_array_categories($object['category_region_array']);;
@@ -180,6 +188,7 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
   public $date_created;
   public $date_updated;
   public $category_theme_array;
+  public $category_subject_array;
   public $category_region_array;
   public $country_focus_array;
   public $keyword;
@@ -261,6 +270,7 @@ class IdsApiObjectAssetOrganisation extends IdsApiObjectAsset {
   public $date_created;
   public $date_updated;
   public $category_theme_array;
+  public $category_subject_array;
   public $category_region_array;
   public $country_focus_array;
   public $keyword;

@@ -29,6 +29,7 @@ $idsimport_importers_ids = array(
 	IDS_IMPORT_IMPORTER_ORGANISATIONS,
 	IDS_IMPORT_IMPORTER_REGIONS,
 	IDS_IMPORT_IMPORTER_THEMES,
+	IDS_IMPORT_IMPORTER_SUBJECTS,
 	IDS_IMPORT_IMPORTER_COUNTRIES,
   );
 
@@ -350,7 +351,7 @@ function idsimport_expire_all() {
 }
 
 /**
- * Given a set of documents, organisations or countries, link them to the corresponding taxonomy terms (regions, themes, countries).
+ * Given a set of documents, organisations or countries, link them to the corresponding taxonomy terms (regions, themes, subjects, countries).
  * If the taxonomy term does not exist, it is created with basic information.
  */
 function idsimport_set_categories($object_ids, $categories) {
@@ -510,6 +511,7 @@ function idsimport_imported_assets_categories($parsed_items) {
   $categories = array();
   $categories['regions'] = array();
   $categories['themes'] = array();
+  $categories['subjects'] = array();
   $categories['countries'] = array();
   $assets = array();
   foreach ($parsed_items as $item) {
@@ -519,6 +521,10 @@ function idsimport_imported_assets_categories($parsed_items) {
     }
     if (isset($item['category_theme_array'])) {
       $categories['themes'][$item['object_id']] = $item['category_theme_array'];
+      $assets[] = $item['object_id'];
+    }
+    if (isset($item['category_subject_array'])) {
+      $categories['subjects'][$item['object_id']] = $item['category_subject_array'];
       $assets[] = $item['object_id'];
     }
     if (isset($item['country_focus_array'])) {

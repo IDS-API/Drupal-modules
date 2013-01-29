@@ -42,7 +42,7 @@ class IdsApiRequest {
   // Identifier of the object being requested.
   public $object_id;
 
-  // Type of object(s) requested: assets, documents, organisations, themes, regions, countries
+  // Type of object(s) requested: assets, documents, organisations, themes, subjects, regions, countries
   public $object_type;
 
   // Format of the response: id, short, full. If not specified, the defined default (short) is used.
@@ -184,7 +184,7 @@ class IdsApiRequest {
     // Builds the URL.
     $this->setUrl();
     // Check if it's in the cache.  If it's not, perform the call and save it in the cache.
-    if ($cache = $this->cacheGet()) {
+    if (0 || $cache = $this->cacheGet()) {
       list($results, $total_results) = $cache->data;
       idsapi_log($this->url, -1);
     }
@@ -296,6 +296,8 @@ class IdsApiRequest {
  * Log API hits.
  */
 function idsapi_log($url = '', $time = '') {
+
+  //watchdog('idsapi', $url, array(), $severity = WATCHDOG_NOTICE, NULL);
   static $log;
 
   if (!empty($url)) {

@@ -138,6 +138,7 @@ class IdsCategoriesFetcher extends FeedsFetcher {
       '#type' => 'select',
       '#options' => array(
         'themes' => t('Themes'),
+        'subjects' => t('Subjects'),
         'regions' => t('Regions'),
         'countries' => t('Countries'),
        ),
@@ -219,7 +220,7 @@ class IdsDocumentsParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
@@ -260,6 +261,10 @@ class IdsDocumentsParser extends FeedsParser {
       'category_theme_array' => array(
         'name' => t('Themes'),
         'description' => t('Thematic categories which apply to the document.'),
+      ),
+      'category_subject_array' => array(
+        'name' => t('Subjects'),
+        'description' => t('Subject categories which apply to the document.'),
       ),
       'category_region_array' => array(
         'name' => t('Regions'),
@@ -325,6 +330,7 @@ class IdsDocumentsParser extends FeedsParser {
           'date_created' => $asset->date_created,
           'date_updated' => $asset->date_updated,
           'category_theme_array' => $asset->category_theme_array,
+          'category_subject_array' => $asset->category_subject_array,
           'category_region_array' => $asset->category_region_array,
           'country_focus_array' => $asset->country_focus_array,
           'keywords' => $asset->keywords,
@@ -360,7 +366,7 @@ class IdsOrganisationsParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
@@ -401,6 +407,10 @@ class IdsOrganisationsParser extends FeedsParser {
       'category_theme_array' => array(
         'name' => t('Themes'),
         'description' => t('Thematic categories which apply to the organisation.'),
+      ),
+      'category_subject_array' => array(
+        'name' => t('Subjects'),
+        'description' => t('Subject categories which apply to the organisation.'),
       ),
       'category_region_array' => array(
         'name' => t('Regions'),
@@ -466,6 +476,7 @@ class IdsOrganisationsParser extends FeedsParser {
           'date_created' => $asset->date_created,
           'date_updated' => $asset->date_updated,
           'category_theme_array' => $asset->category_theme_array,
+          'category_subject_array' => $asset->category_subject_array,
           'category_region_array' => $asset->category_region_array,
           'country_focus_array' => $asset->country_focus_array,
           'keywords' => $asset->keywords,
@@ -596,7 +607,7 @@ class IdsCountriesParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
