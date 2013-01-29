@@ -8,8 +8,8 @@
  * Sets default values to the API URL, documentation URL, cache time, etc.
  */
 
-define('IDS_API_URL', 'http://test.api.ids.ac.uk/openapi/');
-define('IDS_API_HOME_URL', 'http://test.api.ids.ac.uk/');
+define('IDS_API_URL', 'http://api.ids.ac.uk/openapi/');
+define('IDS_API_HOME_URL', 'http://api.ids.ac.uk/');
 define('IDS_API_KEY_URL', 'http://api.ids.ac.uk/accounts/register/');
 define('IDS_API_DOCUMENTATION_URL', 'http://api.ids.ac.uk/docs/');
 define('IDS_CACHE', 'idsapi_cache');
