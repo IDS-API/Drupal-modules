@@ -3,6 +3,9 @@
 /**
  * IdsApiObject class.
  *
+ * Objects of this class' inherited classes contain the information of assets (documents and organisations), categories (regions and themes)
+ * and countries available in the IDS datasets.
+ *
  */
 class IdsApiObject {
 
@@ -28,7 +31,6 @@ class IdsApiObject {
   public $website_url;
 
   // Name of the object.
-  // [Is name = title always???]
   public $name;
 
   /**
@@ -37,26 +39,29 @@ class IdsApiObject {
    * @return a new IdsApiObject object
    */
   public static function factory($object, $format, $object_type) {
-    if ($format === 'full') {
-      switch ($object_type) {
-        case 'assets':
-          return new IdsApiObjectAsset($object);
-        case 'documents':
-          return new IdsApiObjectAssetDocument($object);
-        case 'organisations':
-          return new IdsApiObjectAssetOrganisation($object);
-        case 'themes':
-          return new IdsApiObjectCategory($object);
-        case 'subjects':
-          return new IdsApiObjectCategory($object);
-        case 'regions':
-          return new IdsApiObjectCategory($object);
-        case 'countries':
-          return new IdsApiObjectCountry($object);
-      }
-    }
-    else {
-      return new IdsApiObject($object);
+    switch ($object_type) {
+      case 'assets':
+        return new IdsApiObjectAsset($object);
+      case 'documents':
+        return new IdsApiObjectAssetDocument($object);
+      case 'organisations':
+        return new IdsApiObjectAssetOrganisation($object);
+      case 'themes':
+        return new IdsApiObjectCategory($object);
+      case 'subjects':
+        return new IdsApiObjectCategory($object);
+      case 'regions':
+        return new IdsApiObjectCategory($object);
+      case 'countries':
+        return new IdsApiObjectCountry($object);
+      case 'country_count':
+      case 'theme_count':
+      case 'region_count':
+      case 'subject_count':
+      case 'keyword_count':
+        return new IdsApiCount($object, $object_type);
+      default:
+        return new IdsApiObject($object);
     }
   }
  
@@ -87,6 +92,9 @@ class IdsApiObject {
     elseif (isset($object['object_name'])) {
       $this->name = $object['object_name'];
     }
+    else {
+      $this->name = $this->title;
+    }
   }
 
 }
@@ -94,8 +102,8 @@ class IdsApiObject {
 /**
  * IdsApiObjectAsset class.
  * 
- * This class extends IdsApiObject and will inherit by IdsApiObjectAssetDocument and IdsApiObjectAssetOrganisation.
- * (in the future, also by IdsApiObjectAssetItem).
+ * This class extends IdsApiObject and is inherited by IdsApiObjectAssetDocument and IdsApiObjectAssetOrganisation.
+ *
  */
 abstract class IdsApiObjectAsset extends IdsApiObject {
 
@@ -111,7 +119,7 @@ abstract class IdsApiObjectAsset extends IdsApiObject {
   // Themes. Array of themes (IdsObjectCategory). Thematic categories which apply to the document or organisation.
   public $category_theme_array;
 
-  // Themes. Array of subjects (IdsObjectCategory). Subject-based categories which apply to the document or organisation.
+  // Subjects. Array of subjects (IdsObjectCategory). Subject-based categories which apply to the document or organisation.
   public $category_subject_array;
 
   // Regions. Array of regions (IdsApiObjectCategory). Regions in which the organisation operates or which apply to the document.
@@ -166,7 +174,8 @@ abstract class IdsApiObjectAsset extends IdsApiObject {
 /**
  * IdsApiObjectAssetDocument class.
  * 
- * The objects of this class contain the information of the IDS collection documents.
+ * The objects of this class contain the information of documents in the IDS collection.
+ *
  */
 class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
 
@@ -204,6 +213,12 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
   // Publication date. Date (example: 2004-01-01 00:00:00). Year that the research document was first published.
   public $publication_date;
 
+  // Publisher.
+  public $publisher;
+
+  // Publisher country.
+  public $publisher_country;
+
   // Publishers. Array of IdsApiObjectAssetOrganisation. Organisations that published the research.
   public $publisher_array;
 
@@ -232,6 +247,12 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
     if (isset($object['publication_date'])) {
       $this->publication_date = strtotime($object['publication_date']);
     }
+    if (isset($object['publisher'])) {
+      $this->publisher = $object['publisher'];
+    }
+    if (isset($object['publisher_country'])) {
+      $this->publisher_country = $object['publisher_country'];
+    }
     if (isset($object['publisher_array'])) {
       $this->publisher_array = build_array_organisations($object['publisher_array']);
     }
@@ -248,7 +269,8 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
 /**
  * IdsApiObjectAssetOrganisation class.
  * 
- * The objects of this class contain the information of the organisations in the IDS collection.
+ * The objects of this class contain the information of organisations in the IDS collection.
+ *
  */
 class IdsApiObjectAssetOrganisation extends IdsApiObjectAsset {
 
@@ -331,6 +353,8 @@ class IdsApiObjectAssetOrganisation extends IdsApiObjectAsset {
 /**
  * IdsApiObjectObjectCategory class.
  * 
+ * The objects of this class contain the information of regions and themes in the IDS collection.
+ *
  */
 class IdsApiObjectCategory extends IdsApiObject {
 
@@ -351,8 +375,11 @@ class IdsApiObjectCategory extends IdsApiObject {
   // Level of the category in the hierarchy.
   public $level;
 
-  // Id of the parent category.
+  // Numerical code of the parent category. Example: 34. [This is no longer included in the API response?].
   public $cat_parent;
+
+  // Object Id of the parent category. Example: C34.
+  public $parent_object_id;
 
   // Id of the superparent category. '2' represents the root level.
   public $cat_superparent;
@@ -374,8 +401,14 @@ class IdsApiObjectCategory extends IdsApiObject {
     if (isset($object['level'])) {
       $this->level = $object['level'];
     }
+    if (isset($object['parent_object_id'])) {
+      $this->parent_object_id = $object['parent_object_id'];
+    }
     if (isset($object['cat_parent'])) {
       $this->cat_parent = $object['cat_parent'];
+    }
+    elseif (isset($object['parent_object_id'])) {
+      $this->cat_parent = preg_replace('/[a-zA-Z]*(\d+)/', '$1', $this->parent_object_id);
     }
     if (isset($object['cat_superparent'])) {
       $this->cat_superparent = $object['cat_superparent'];
@@ -393,7 +426,8 @@ class IdsApiObjectCategory extends IdsApiObject {
 /**
  * IdsApiObjectCountry class.
  * 
- * The objects of this class contain the information of the countries in the IDS collection.
+ * The objects of this class contain the information of countries in the IDS collection.
+ *
  */
  
 class IdsApiObjectCountry extends IdsApiObject {
@@ -456,6 +490,46 @@ class IdsApiObjectCountry extends IdsApiObject {
   }
 
 }
+
+/**
+ * IdsApiCount class.
+ *
+ * Objects of this class hold one result of a count request.
+ *
+ */
+class IdsApiCount {
+
+  // Number of responses corresponding to the category.
+  public $count;
+
+  // This is an IdsApiObject representing the category (in the case of theme, subject and region IdsApiObjectCategory and for country IdsApiObjectCountry).
+  public $item;
+
+  /**
+   * Constructor.
+   */
+  function __construct($object, $type) {
+    if (isset($object['count'])) {
+      $this->count = $object['count'];
+    }
+    switch ($type) {
+      case 'country_count':
+        $this->item = new IdsApiObjectCountry($object);
+        break;
+      case 'theme_count':
+      case 'region_count':
+      case 'subject_count':
+        $this->item = new IdsApiObjectCategory($object);
+        break;
+      default:
+        $this->item = new IdsApiObject($object);
+        break;
+    }
+  }
+
+}
+
+
 
 /* --------------------------- Helper functions ------------------------- */
 

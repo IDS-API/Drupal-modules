@@ -13,7 +13,6 @@ function idsimport_feeds_after_import($source) {
     if ($vocabulary = $processor->vocabulary()) {
       idsimport_build_category_tree($vocabulary->vid);
       drupal_set_message(t('Rebuilt category hierarchy.'));
-      //variable_set('idsimport_categories_imported', TRUE);
     }
   }
   elseif (($parser instanceOf IdsDocumentsParser) || ($parser instanceOf IdsOrganisationsParser) || ($parser instanceOf IdsCountriesParser)) {

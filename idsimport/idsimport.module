@@ -8,8 +8,9 @@
  */
 
 // Sets module defaults.
-require_once('idsimport.default.inc');
 module_load_include('inc', 'idsapi', 'default');
+require_once(IDS_API_LIBRARY_PATH . 'idswrapper.wrapper.inc');
+require_once('idsimport.default.inc');
 
 // Implement feeds fetcher and parser, create feeds importers configurations.
 require_once('idsimport.feeds.inc');
@@ -142,20 +143,160 @@ function idsimport_get_nodes_importer($importer) {
  */
 function idsimport_new_user($username) {
   $user = user_load_by_name($username);
-  if (!$user) {
+  $role = user_role_load_by_name('idsimport_user');
+  if (empty($user)) {
     $account = new stdClass;
-    $account->is_new = TRUE;
     $account->name = $username;
+    $account->is_new = TRUE;
     if (IDS_IMPORT_USER_EMAIL) {
       $account->mail = IDS_IMPORT_USER_EMAIL;
     }
     $account->status = TRUE;
-    if (!($user = user_save($account))) {
-      return FALSE;
+  }
+  else {
+    $account = $user;
+  }
+  if (isset($role->rid)) {
+    $account->roles = array($role->rid => TRUE);
+  }
+  if (!($user = user_save($account))) {
+    return FALSE;
+  }
+  else {
+    return $user->uid;
+  }
+}
+
+/**
+ * Grants the IDS user permissions on imported content and feeds.
+ */
+  function idsimport_grant_permissions($rid) {
+    $types = array(
+              IDS_IMPORT_DOCUMENTS_TYPE,
+              IDS_IMPORT_ORGANISATIONS_TYPE,
+            );
+    $feeds = array(
+              IDS_IMPORT_DOCUMENTS_FEED_TYPE,
+              IDS_IMPORT_ORGANISATIONS_FEED_TYPE,
+              IDS_IMPORT_REGIONS_FEED_TYPE,
+              IDS_IMPORT_THEMES_FEED_TYPE,
+              IDS_IMPORT_SUBJECTS_FEED_TYPE,
+              IDS_IMPORT_COUNTRIES_FEED_TYPE,
+            );
+    $permissions = array('administer feeds');
+    foreach ($types as $type) {
+      $permissions[] = 'create ' . $type . ' content';
+      $permissions[] = 'edit any ' . $type . ' content';
+      $permissions[] = 'edit own ' . $type . ' content';
+      $permissions[] = 'delete any ' . $type . ' content';
+      $permissions[] = 'delete own ' . $type . ' content';
+    }
+    foreach ($feeds as $feed) {
+      $permissions[] = 'create ' . $feed . ' content';
+      $permissions[] = 'edit any ' . $feed . ' content';
+      $permissions[] = 'edit own ' . $feed . ' content';
+      $permissions[] = 'delete any ' . $feed . ' content';
+      $permissions[] = 'delete own ' . $feed . ' content';
+    }
+    user_role_grant_permissions($rid, $permissions);
+  }
+
+
+/* ---------------- Additional IDS metadata-related functions --------------- */
+
+function idsimport_menu_alter(&$items) {
+  $hide_types = array(IDS_IMPORT_SUBJECTS_FEED_TYPE);
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  if (!$additional_fields) {
+    foreach ($hide_types as $type) {
+      $menu_path = 'node/add/' .  str_replace('_', '-', $type);
+      if (isset($items[$menu_path])) {
+        $items[$menu_path]['access callback'] = FALSE;
+      }
     }
   }
-  return $user->uid;
 }
+
+/**
+ * Tasks to perform when the API key is changed. Depending on the partner큦 level, special importers are enabled/disabled.
+ */
+function idsimport_ids_api_key() {
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  $importers = array(IDS_IMPORT_IMPORTER_SUBJECTS);
+  foreach ($importers as $importer) {
+    if (!$additional_fields) {
+      $disabled[$importer] = TRUE;
+    }
+    else {
+      $disabled[$importer] = FALSE;
+    }
+  }
+  variable_set('default_feeds_importer', $disabled);
+  menu_rebuild();
+  drupal_theme_rebuild();
+  feeds_cache_clear();
+}
+
+/**
+ * Hide vocabularies corresponding to categories available only with partner큦 API keys.
+ */
+function idsimport_form_taxonomy_overview_vocabularies_alter(&$form, &$form_state, $form_id) {
+  $hide_vocabularies = array(IDS_IMPORT_SUBJECTS_VOCABULARY);
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  if (!$additional_fields) {
+    foreach ($form as $key => $voc) {
+      if (isset($voc['#vocabulary'])) {
+        $vocabulary = $voc['#vocabulary'];
+        if (isset($vocabulary->machine_name)) {
+          if (in_array($vocabulary->machine_name, $hide_vocabularies)) {
+            unset($form[$key]);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Hide importers corresponding to categories available only with partner큦 API keys.
+ */
+function idsimport_form_feeds_ui_overview_form_alter(&$form, &$form_state, $form_id) {
+  $hide_importers = array(IDS_IMPORT_IMPORTER_SUBJECTS);
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  if (!$additional_fields) {
+    foreach ($hide_importers as $importer) {
+      if (isset($form['disabled'])) {
+        if (isset($form['disabled'][$importer])) {
+          unset($form['disabled'][$importer]);
+        }
+        elseif (isset($form['enabled'][$importer])) {
+          unset($form['enabled'][$importer]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Hide node fields corresponding to categories available only with partner큦 API keys.
+ */
+function idsimport_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $hide_field_categories = array('field_subjects');
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  if (!$additional_fields) {
+    foreach ($hide_field_categories as $hide_field) {
+      if (isset($form[$hide_field])) {
+        if (!isset($form[$hide_field]['#attributes'])) {
+          $form[$hide_field]['#attributes'] = array();
+        }
+        $form[$hide_field]['#attributes']['style'] = 'display:none';
+      }
+    }
+  }
+}
+
+
+
 
 /* ------------------------- Taxonomy functions ----------------------- */
 
@@ -362,8 +503,6 @@ function idsimport_set_categories($object_ids, $categories) {
   $data_object_id = $field_object_id['storage']['details']['sql'][FIELD_LOAD_CURRENT];
   $table_object_id = key($data_object_id);
   $value_object_id = $data_object_id[$table_object_id]['value'];
-//  $results = db_query("SELECT {$value_object_id}, entity_id, entity_type FROM {$table_object_id} WHERE {$value_object_id} IN (:object_ids)", array(':object_ids' => $object_ids));
-//  $assets = $results->fetchAllAssoc($value_object_id);
   $assets = db_select($table_object_id)
   ->fields($table_object_id,array($value_object_id,'entity_id','entity_type'))
   ->condition($value_object_id, $object_ids,'IN')
@@ -413,24 +552,19 @@ function idsimport_set_categories($object_ids, $categories) {
           $new_tids[$object_id][$type_category][] = $tid;
         }
         else {
-          // The category does not exist as a taxonomy term. We create it (if it's not an archived category).
-          $archived = FALSE;
-          if (property_exists($category, 'archived')) {
-            if ($category->archived === 'false') {
-              $category->archived = 0;
-            }
-            else {
-              $archived = TRUE;
-            }
+          // The category does not exist as a taxonomy term. We create it.
+          if (isset($category->archived) && ($category->archived === 'true')) {
+              $category->archived = 1;
           }
-          if (!$archived) {
-            if ($tid = idsimport_taxonomy_term($category, $vid, $source)) {
-              $oids_tids[$oid] = $tid;
-              $new_tids[$object_id][$type_category][] = $tid;
-            }
-            else {
-              watchdog('idsimport', "Category !oid was not created.", array('!oid' => $oid), WATCHDOG_WARNING);
-            }
+          else {
+            $category->archived = 0;
+          }
+          if ($tid = idsimport_taxonomy_term($category, $vid, $source)) {
+            $oids_tids[$oid] = $tid;
+            $new_tids[$object_id][$type_category][] = $tid;
+          }
+          else {
+            watchdog('idsimport', "Category !oid was not created.", array('!oid' => $oid), WATCHDOG_WARNING);
           }
         }
       }
@@ -485,18 +619,18 @@ function idsimport_taxonomy_term($category, $vid, $source) {
     $term->field_parent_id['und']['0']['value'] = '0';
   }
   if (isset($category->category_id)) {
-    $term->field_parent_id['und']['0']['value'] = $category->category_id;
+    $term->field_category_id['und']['0']['value'] = $category->category_id;
   }
   else {
-    $category_id = trim($category->object_id, 'C');
+    $category_id = preg_replace('/[a-zA-Z]*(\d+)/', '$1', $category->object_id);
     $term->field_category_id['und']['0']['value'] = $category_id;
   }
   taxonomy_term_save($term);
   // We let Feeds know about the newly created term, so it's not created again when importing.
   if ($term->tid) {
     $processor = $source->importer->processor;
-    $hash = $processor->hash($term);
-    $processor->newItemInfo($term, $source->feed_nid, $hash);
+    $hash = $processor->generateHash($term);
+    $processor->newIdsItemInfo($term, $source->feed_nid, $hash);
     $term->feeds_item->entity_id = $term->tid;
     $term->feeds_item->guid = $category->object_id;
     feeds_item_info_save($term, $term->tid);

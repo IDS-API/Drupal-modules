@@ -9,6 +9,7 @@
  */
 function idsviews_views_default_views() {
   $export = array();
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
 
   /******************* IDS Documents View *******************/
 
@@ -24,6 +25,7 @@ function idsviews_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'ids-documents-view';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -198,28 +200,10 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
 
-  /* Field: IDS: Subjects */
-  $handler->display->display_options['fields']['category_subject_array']['id'] = 'category_subject_array';
-  $handler->display->display_options['fields']['category_subject_array']['table'] = 'idsviews_documents';
-  $handler->display->display_options['fields']['category_subject_array']['field'] = 'category_subject_array';
-  $handler->display->display_options['fields']['category_subject_array']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['hide_empty'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['hide_alter_empty'] = 0;
+  /* Field: IDS: Subjects - Included only when using a partner큦 API keys */
+  if ($additional_fields) {
+    idsviews_display_subject_field($handler->display, 'idsviews_documents');
+  }
 
   /* Field: IDS: Countries */
   $handler->display->display_options['fields']['country_focus_array']['id'] = 'country_focus_array';
@@ -462,18 +446,10 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
 
-  /* Filter criterion: IDS: Subjects */
-  $handler->display->display_options['filters']['subject_filter']['id'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['table'] = 'idsviews_documents';
-  $handler->display->display_options['filters']['subject_filter']['field'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['value'] = array();
-  $handler->display->display_options['filters']['subject_filter']['group'] = 1;
-  $handler->display->display_options['filters']['subject_filter']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['subject_filter']['expose']['operator_id'] = '';
-  $handler->display->display_options['filters']['subject_filter']['expose']['label'] = 'Subject';
-  $handler->display->display_options['filters']['subject_filter']['expose']['operator'] = 'subject_filter_op';
-  $handler->display->display_options['filters']['subject_filter']['expose']['identifier'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['expose']['multiple'] = 1;
+  /* Filter criterion: IDS: Subjects - Included only when using a partner큦 API keys */
+  if ($additional_fields) {
+    idsviews_display_subject_filter($handler->display, 'idsviews_documents');
+  }
 
   /* Filter criterion: IDS: Author(s) */
   $handler->display->display_options['filters']['author_filter']['id'] = 'author_filter';
@@ -883,7 +859,7 @@ function idsviews_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['css_class'] = 'ids-organisations';
+  $handler->display->display_options['css_class'] = 'ids-organisations-view';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -1136,28 +1112,10 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['empty_zero'] = 0;
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
-  /* Field: IDS: Subjects */
-  $handler->display->display_options['fields']['category_subject_array']['id'] = 'category_subject_array';
-  $handler->display->display_options['fields']['category_subject_array']['table'] = 'idsviews_organisations';
-  $handler->display->display_options['fields']['category_subject_array']['field'] = 'category_subject_array';
-  $handler->display->display_options['fields']['category_subject_array']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['hide_empty'] = 1;
-  $handler->display->display_options['fields']['category_subject_array']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['category_subject_array']['hide_alter_empty'] = 0;
+  /* Field: IDS: Subjects - Included only when using a partner큦 API keys */
+  if ($additional_fields) {
+    idsviews_display_subject_field($handler->display, 'idsviews_organisations');
+  }
 
   /* Field: IDS: Regions */
   $handler->display->display_options['fields']['category_region_array']['id'] = 'category_region_array';
@@ -1376,18 +1334,10 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
 
-  /* Filter criterion: IDS: Subjects */
-  $handler->display->display_options['filters']['subject_filter']['id'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['table'] = 'idsviews_organisations';
-  $handler->display->display_options['filters']['subject_filter']['field'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['value'] = array();
-  $handler->display->display_options['filters']['subject_filter']['group'] = 1;
-  $handler->display->display_options['filters']['subject_filter']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['subject_filter']['expose']['operator_id'] = '';
-  $handler->display->display_options['filters']['subject_filter']['expose']['label'] = 'Subject';
-  $handler->display->display_options['filters']['subject_filter']['expose']['operator'] = 'subject_filter_op';
-  $handler->display->display_options['filters']['subject_filter']['expose']['identifier'] = 'subject_filter';
-  $handler->display->display_options['filters']['subject_filter']['expose']['multiple'] = 1;
+  /* Filter criterion: IDS: Subjects - Included only when using a partner큦 API keys */
+  if ($additional_fields) {
+    idsviews_display_subject_filter($handler->display, 'idsviews_organisations');
+  }
 
   /* Filter criterion: IDS: Regions */
   $handler->display->display_options['filters']['region_filter']['id'] = 'region_filter';
@@ -1618,4 +1568,45 @@ function idsviews_views_default_views() {
 
   /* Return array of default views. */
   return $export;
+}
+
+// In the case of subjects we need to call these functions when the API key is changed.
+// Functions could also be defined for the other fields and, but we intend to keep the same structure of the exported views, so
+// the fields and filters can be easily changed copying and pasting from the views defined with Views UI.
+function idsviews_display_subject_field($display, $table) {
+  $display->display_options['fields']['category_subject_array']['id'] = 'category_subject_array';
+  $display->display_options['fields']['category_subject_array']['table'] = $table;
+  $display->display_options['fields']['category_subject_array']['field'] = 'category_subject_array';
+  $display->display_options['fields']['category_subject_array']['alter']['alter_text'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['make_link'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['absolute'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['external'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['replace_spaces'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['trim_whitespace'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['nl2br'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['word_boundary'] = 1;
+  $display->display_options['fields']['category_subject_array']['alter']['ellipsis'] = 1;
+  $display->display_options['fields']['category_subject_array']['alter']['more_link'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['strip_tags'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['trim'] = 0;
+  $display->display_options['fields']['category_subject_array']['alter']['html'] = 0;
+  $display->display_options['fields']['category_subject_array']['element_label_colon'] = 1;
+  $display->display_options['fields']['category_subject_array']['element_default_classes'] = 1;
+  $display->display_options['fields']['category_subject_array']['hide_empty'] = 1;
+  $display->display_options['fields']['category_subject_array']['empty_zero'] = 0;
+  $display->display_options['fields']['category_subject_array']['hide_alter_empty'] = 0;
+}
+
+function idsviews_display_subject_filter($display, $table) {
+  $display->display_options['filters']['subject_filter']['id'] = 'subject_filter';
+  $display->display_options['filters']['subject_filter']['table'] = $table;
+  $display->display_options['filters']['subject_filter']['field'] = 'subject_filter';
+  $display->display_options['filters']['subject_filter']['value'] = array();
+  $display->display_options['filters']['subject_filter']['group'] = 1;
+  $display->display_options['filters']['subject_filter']['exposed'] = TRUE;
+  $display->display_options['filters']['subject_filter']['expose']['operator_id'] = '';
+  $display->display_options['filters']['subject_filter']['expose']['label'] = 'Subject';
+  $display->display_options['filters']['subject_filter']['expose']['operator'] = 'subject_filter_op';
+  $display->display_options['filters']['subject_filter']['expose']['identifier'] = 'subject_filter';
+  $display->display_options['filters']['subject_filter']['expose']['multiple'] = 1;
 }

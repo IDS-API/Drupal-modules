@@ -19,7 +19,9 @@
   * the view is modified.
   */
 ?>
-<h1><b>
+<h1 class="ids-documents-view-title">
+<b>
 <?php print ucfirst($output) . ' Documents'; ?>
-</b></h1>
+</b>
+</h1>
 

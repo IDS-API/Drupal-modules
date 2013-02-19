@@ -5,7 +5,7 @@
  */
 
 /**
- * Creates vocabulary definitions for IDS categories (regions, themes, countries).
+ * Creates vocabulary definitions for IDS categories.
  */
 function idsimport_vocabularies() {
   $vocabularies['ids_regions'] = array(

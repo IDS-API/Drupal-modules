@@ -19,7 +19,9 @@
   * the view is modified.
   */
 ?>
-<h1><b>
+<h1 class="ids-organisations-view-title">
+<b>
 <?php print ucfirst($output) . ' Organisations'; ?>
-</b></h1>
+</b>
+</h1>
 

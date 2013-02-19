@@ -7724,7 +7724,7 @@ function idsimport_fields_instances() {
         ),
         'field_name' => 'field_archived',
         'entity_type' => 'taxonomy_term',
-        'bundle' => 'ids_subjexs',
+        'bundle' => 'ids_subjects',
         'deleted' => '0',
       ),
     'field_category_id' => array(

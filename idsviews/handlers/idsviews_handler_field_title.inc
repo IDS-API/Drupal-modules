@@ -25,7 +25,6 @@ class idsviews_handler_field_title extends views_handler_field {
     $view_url = $this->view->get_url();
     $item = $this->get_value($values);
     $tipo = gettype($item);
-    debug($tipo,'tipo',true);
     if (isset($item->title)) {
       $params['object_id_filter'] = $item->object_id;
       if (!empty($this->options['display_as_links'])) {

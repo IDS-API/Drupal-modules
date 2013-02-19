@@ -486,7 +486,7 @@ function idsimport_feeds_importer_default()
   );
 
 
- $subjects_importer = new stdClass;
+  $subjects_importer = new stdClass;
   $subjects_importer->disabled = FALSE;
   $subjects_importer->api_version = 1;
   $subjects_importer->id = IDS_IMPORT_IMPORTER_SUBJECTS;
