@@ -32,7 +32,7 @@ class idsviews_handler_filter_countries extends views_handler_filter {
       '#title'  => t('Countries'),
       '#multiple' => TRUE,
       '#options'  => $countries_values,
-      '#default_value'  => $countries_values,
+      '#default_value'  => $this->value,
     );
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];

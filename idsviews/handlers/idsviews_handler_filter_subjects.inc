@@ -38,7 +38,7 @@ class idsviews_handler_filter_subjects extends views_handler_filter {
       '#title'  => t('Subjects'),
       '#multiple' => TRUE,
       '#options'  => $subjects_values,
-      '#default_value'  => $subjects_values,
+      '#default_value'  => $this->value,
     );
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];

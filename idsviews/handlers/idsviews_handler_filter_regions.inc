@@ -32,7 +32,7 @@ class idsviews_handler_filter_regions extends views_handler_filter {
       '#title'  => t('Regions'),
       '#multiple' => TRUE,
       '#options'  => $regions_values,
-      '#default_value'  => $regions_values,
+      '#default_value'  => $this->value,
     );
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];
