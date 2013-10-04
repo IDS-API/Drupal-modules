@@ -5,7 +5,7 @@
  */
 
 /**
- * Creates vocabulary definitions for IDS categories (regions, themes, countries).
+ * Creates vocabulary definitions for IDS categories.
  */
 function idsimport_vocabularies() {
   $vocabularies['ids_regions'] = array(
@@ -57,6 +57,32 @@ function idsimport_vocabularies() {
       ),
       'bc_entity_type' => 'taxonomy_term',
     );
+
+  $vocabularies['ids_subjects'] = array(
+      'name' => 'IDS Subjects',
+      'machine_name' => 'ids_subjects',
+      'description' => 'Vocabulary for subjects imported from the IDS collection.',
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+      'bc_entity_type' => 'taxonomy_term',
+    );
+
 
   $vocabularies['ids_countries'] = array(
       'name' => 'IDS Countries',

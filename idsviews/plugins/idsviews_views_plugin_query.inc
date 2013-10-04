@@ -6,8 +6,8 @@
  *   Views query plugin for the IDS API.
  */
 
-class idsviews_views_plugin_query extends views_plugin_query {
-  var $request;
+class idsviews_views_plugin_query extends views_plugin_query_default {
+  var $ids_wrapper;
   var $orderby;
 
   /**
@@ -15,13 +15,12 @@ class idsviews_views_plugin_query extends views_plugin_query {
    */
   function init($base_table, $base_field, $options) {
     parent::init($base_table, $base_field, $options);
-    module_load_include('inc', 'idsapi', 'idsapi.request');
-    $this->request = new IdsApiRequest();
+    $this->ids_wrapper = new IdsApiWrapper();
   }
 
   function add_dataset($dataset) {
     if (isset($dataset)) {
-      $this->request->site = $dataset;
+      $this->ids_wrapper->setSite($dataset);
     }
   }
 
@@ -93,16 +92,17 @@ class idsviews_views_plugin_query extends views_plugin_query {
    */
   function execute(&$view) {
     $type = str_replace("idsviews_", "", $view->base_table);
-    $this->request->num_requested = $this->pager->options['items_per_page'];
-    $this->request->start_offset = $this->pager->current_page * $this->pager->options['items_per_page'];
-    $this->request->object_type = $type;
-    $this->request->format = 'full';
+    $this->ids_wrapper->setApiKey(variable_get('idsapi_api_key', ''));
+    $this->ids_wrapper->setNumRequested($this->pager->options['items_per_page']);
+    $this->ids_wrapper->setOffset($this->pager->current_page * $this->pager->options['items_per_page']);
+    $this->ids_wrapper->setObjectType($type);
+    $this->ids_wrapper->setFormat('full');
     $this->set_url();
     $start = microtime();
-    $response = $this->request->makeRequest();
+    $response = $this->ids_wrapper->makeRequest();
     $view->execute_time = microtime() - $start;
-    $view->result = $response->results;
-    $this->pager->total_items = $view->total_rows = $response->total_results;
+    $view->result = $response->getResults();
+    $this->pager->total_items = $view->total_rows = $response->getTotalResults();
     $this->pager->update_page_info();
   }
 
@@ -127,18 +127,18 @@ class idsviews_views_plugin_query extends views_plugin_query {
         foreach ($params as $param => $values) {
           $value = implode($oper, $values);
           if ($param === 'object_id') {
-            $this->request->object_id = $value;
-            $this->request->type_request = 'get';
+            $this->ids_wrapper->setObjectId($value);
+            $this->ids_wrapper->setTypeRequest('get');
           }
           else {
-            $this->request->setSearchParam($param, $value);
+            $this->ids_wrapper->setParam($param, $value);
           }
         }
       }
     }
     if (isset($this->orderby['order']) && (isset($this->orderby['orderby_field']))) {
       $order = 'sort_' . strtolower($this->orderby['order']);
-      $this->request->setSearchParam($order, $this->orderby['orderby_field']);
+      $this->ids_wrapper->setParam($order, $this->orderby['orderby_field']);
     }
   }
 

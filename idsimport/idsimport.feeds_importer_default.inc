@@ -485,6 +485,108 @@ function idsimport_feeds_importer_default()
     'process_in_background' => 1
   );
 
+
+  $subjects_importer = new stdClass;
+  $subjects_importer->disabled = FALSE;
+  $subjects_importer->api_version = 1;
+  $subjects_importer->id = IDS_IMPORT_IMPORTER_SUBJECTS;
+  $subjects_importer->config = array(
+    'name' => 'IDS Subjects Importer',
+    'description' => 'Importer for subjects in the IDS collection.',
+    'fetcher' => array(
+      'plugin_key' => 'IdsCategoriesFetcher',
+      'config' => array(
+        'category_type' => 'subjects'
+      )
+    ),
+    'parser' => array(
+      'plugin_key' => 'IdsCategoriesParser',
+      'config' => array()
+    ),
+    'processor' => array(
+      'plugin_key' => 'IdsCategoriesProcessor',
+      'config' => array(
+        'vocabulary' => IDS_IMPORT_SUBJECTS_VOCABULARY,
+        'mappings' => array(
+          0 => array(
+            'source' => 'name',
+            'target' => 'name',
+            'unique' => 0
+          ),
+          1 => array(
+            'source' => 'category_id',
+            'target' => 'field_category_id',
+            'unique' => FALSE
+          ),
+          2 => array(
+            'source' => 'object_id',
+            'target' => 'guid',
+            'unique' => 1
+          ),
+          3 => array(
+            'source' => 'title',
+            'target' => 'description',
+            'unique' => FALSE
+          ),
+          4 => array(
+            'source' => 'cat_superparent',
+            'target' => 'field_superparent_id',
+            'unique' => FALSE
+          ),
+          5 => array(
+            'source' => 'site',
+            'target' => 'field_site',
+            'unique' => FALSE
+          ),
+          6 => array(
+            'source' => 'website_url',
+            'target' => 'field_website_url',
+            'unique' => FALSE
+          ),
+          7 => array(
+            'source' => 'metadata_url',
+            'target' => 'field_metadata_url',
+            'unique' => FALSE
+          ),
+          8 => array(
+            'source' => 'object_id',
+            'target' => 'field_object_id',
+            'unique' => FALSE
+          ),
+          9 => array(
+            'source' => 'object_type',
+            'target' => 'field_object_type',
+            'unique' => FALSE
+          ),
+          10 => array(
+            'source' => 'timestamp',
+            'target' => 'field_timestamp:start',
+            'unique' => FALSE
+          ),
+          11 => array(
+            'source' => 'archived',
+            'target' => 'field_archived',
+            'unique' => FALSE
+          ),
+          12 => array(
+            'source' => 'cat_parent',
+            'target' => 'field_parent_id',
+            'unique' => FALSE
+          )
+        ),
+        'update_existing' => '2',
+        'input_format' => 'plain_text'
+      )
+    ),
+    'content_type' => IDS_IMPORT_SUBJECTS_FEED_TYPE,
+    'update' => 1,
+    'import_period' => IDS_IMPORT_IMPORT_PERIOD_CATEGORIES,
+    'expire_period' => IDS_IMPORT_EXPIRE_PERIOD_CATEGORIES,
+    'import_on_create' => 0,
+    'process_in_background' => 1
+  );
+
+
   $countries_importer = new stdClass();
   $countries_importer->disabled = FALSE;
   $countries_importer->api_version = 1;
@@ -589,6 +691,7 @@ function idsimport_feeds_importer_default()
   $export[IDS_IMPORT_IMPORTER_ORGANISATIONS] = $organisations_importer;
   $export[IDS_IMPORT_IMPORTER_REGIONS] = $regions_importer;
   $export[IDS_IMPORT_IMPORTER_THEMES] = $themes_importer;
+  $export[IDS_IMPORT_IMPORTER_SUBJECTS] = $subjects_importer;
   $export[IDS_IMPORT_IMPORTER_COUNTRIES] = $countries_importer;
   
   return $export;

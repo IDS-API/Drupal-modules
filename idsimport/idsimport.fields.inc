@@ -639,6 +639,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -775,6 +776,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -845,6 +847,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -1093,6 +1096,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_sujbjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -1228,6 +1232,70 @@ function idsimport_fields_definitions() {
         ),
       ),
     ),
+    'field_subjects' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'ids_subjects',
+            'parent' => '0',
+          ),
+        ),
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_subjects' => array(
+                'tid' => 'field_subjects_tid',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_subjects' => array(
+                'tid' => 'field_subjects_tid',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(
+        'tid' => array(
+          'table' => 'taxonomy_term_data',
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'field_name' => 'field_subjects',
+      'type' => 'taxonomy_term_reference',
+      'module' => 'taxonomy',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'columns' => array(
+        'tid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'node' => array(
+          0 => 'ids_document',
+        ),
+      ),
+    ),
     'field_timestamp' => array(
       'translatable' => '0',
       'entity_types' => array(),
@@ -1287,6 +1355,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -1357,6 +1426,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -2017,6 +2087,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -2155,6 +2226,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -2226,6 +2298,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -2490,6 +2563,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -2628,6 +2702,71 @@ function idsimport_fields_definitions() {
         ),
       ),
     ),
+    'field_subjects' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'ids_subjects',
+            'parent' => '0',
+          ),
+        ),
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_subjects' => array(
+                'tid' => 'field_subjects_tid',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_subjects' => array(
+                'tid' => 'field_subjects_tid',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(
+        'tid' => array(
+          'table' => 'taxonomy_term_data',
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'field_name' => 'field_subjects',
+      'type' => 'taxonomy_term_reference',
+      'module' => 'taxonomy',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'columns' => array(
+        'tid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'node' => array(
+          0 => 'ids_document',
+          1 => 'ids_organisation',
+        ),
+      ),
+    ),
     'field_timestamp' => array(
       'translatable' => '0',
       'entity_types' => array(),
@@ -2685,7 +2824,7 @@ function idsimport_fields_definitions() {
       ),
       'bundles' => array(
         'taxonomy_term' => array(
-          0 => 'ids_themes',
+          0 => 'ids_subjects',
           1 => 'ids_regions',
         ),
         'node' => array(
@@ -2758,6 +2897,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_themes',
           1 => 'ids_regions',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -2821,6 +2961,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -2867,6 +3008,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -2937,6 +3079,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3007,6 +3150,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3077,6 +3221,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3123,6 +3268,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3190,6 +3336,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -3239,6 +3386,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3301,6 +3449,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -3371,6 +3520,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -3436,6 +3586,66 @@ function idsimport_fields_definitions() {
         ),
       ),
     ),
+  );
+  $fields['subjects'] = array(
+    'field_archived' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_archived' => array(
+                'value' => 'field_archived_value',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_archived' => array(
+                'value' => 'field_archived_value',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'field_name' => 'field_archived',
+      'type' => 'list_boolean',
+      'module' => 'list',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'columns' => array(
+        'value' => array(
+          'type' => 'int',
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'taxonomy_term' => array(
+          0 => 'ids_regions',
+          1 => 'ids_themes',
+          2 => 'ids_subjects',
+        ),
+      ),
+    ),
+
     'field_category_id' => array(
       'translatable' => '0',
       'entity_types' => array(),
@@ -3479,6 +3689,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3549,6 +3760,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3619,6 +3831,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3689,6 +3902,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3735,6 +3949,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3802,6 +4017,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -3851,6 +4067,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
       ),
     ),
@@ -3913,6 +4130,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -3983,6 +4201,7 @@ function idsimport_fields_definitions() {
         'taxonomy_term' => array(
           0 => 'ids_regions',
           1 => 'ids_themes',
+          2 => 'ids_subjects',
         ),
         'node' => array(
           0 => 'ids_document',
@@ -5549,6 +5768,44 @@ function idsimport_fields_instances() {
         'bundle' => 'ids_document',
         'deleted' => '0',
       ),
+    'field_subjects' => array(
+        'label' => 'Subjects',
+        'widget' => array(
+          'weight' => '3',
+          'type' => 'options_select',
+          'module' => 'options',
+          'active' => 0,
+          'settings' => array(
+            'size' => 60,
+            'autocomplete_path' => 'taxonomy/autocomplete',
+          ),
+        ),
+        'settings' => array(
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'above',
+            'type' => 'taxonomy_term_reference_link',
+            'weight' => '2',
+            'settings' => array(),
+            'module' => 'taxonomy',
+          ),
+          'teaser' => array(
+            'type' => 'hidden',
+            'label' => 'above',
+            'settings' => array(),
+            'weight' => 0,
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_subjects',
+        'entity_type' => 'node',
+        'bundle' => 'ids_document',
+        'deleted' => '0',
+      ),
     'field_timestamp' => array(
         'label' => 'Timestamp',
         'widget' => array(
@@ -6390,6 +6647,44 @@ function idsimport_fields_instances() {
         'description' => '',
         'default_value' => NULL,
         'field_name' => 'field_themes',
+        'entity_type' => 'node',
+        'bundle' => 'ids_organisation',
+        'deleted' => '0',
+      ),
+    'field_subjects' => array(
+        'label' => 'Subjects',
+        'widget' => array(
+          'weight' => '3',
+          'type' => 'options_select',
+          'module' => 'options',
+          'active' => 0,
+          'settings' => array(
+            'size' => 60,
+            'autocomplete_path' => 'taxonomy/autocomplete',
+          ),
+        ),
+        'settings' => array(
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'above',
+            'type' => 'taxonomy_term_reference_link',
+            'weight' => '2',
+            'settings' => array(),
+            'module' => 'taxonomy',
+          ),
+          'teaser' => array(
+            'type' => 'hidden',
+            'label' => 'above',
+            'settings' => array(),
+            'weight' => 0,
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_subjects',
         'entity_type' => 'node',
         'bundle' => 'ids_organisation',
         'deleted' => '0',
@@ -7385,6 +7680,458 @@ function idsimport_fields_instances() {
         'field_name' => 'field_website_url',
         'entity_type' => 'taxonomy_term',
         'bundle' => 'ids_themes',
+        'deleted' => '0',
+      ),
+  );
+
+  $instances['subjects'] = array(
+    'field_archived' => array(
+        'label' => 'Archived',
+        'widget' => array(
+          'weight' => '11',
+          'type' => 'options_onoff',
+          'module' => 'options',
+          'active' => 1,
+          'settings' => array(
+            'display_label' => 1,
+          ),
+        ),
+        'settings' => array(
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'list_key',
+            'weight' => '6',
+            'settings' => array(),
+            'module' => 'list',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'list_key',
+            'weight' => '6',
+            'settings' => array(),
+            'module' => 'list',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => array(
+          0 => array(
+            'value' => 0,
+          ),
+        ),
+        'field_name' => 'field_archived',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_category_id' => array(
+        'label' => 'Category ID',
+        'widget' => array(
+          'weight' => '1',
+          'type' => 'number',
+          'module' => 'number',
+          'active' => 0,
+          'settings' => array(),
+        ),
+        'settings' => array(
+          'min' => '',
+          'max' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '9',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '9',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_category_id',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_metadata_url' => array(
+        'label' => 'Metadata URL',
+        'widget' => array(
+          'weight' => '8',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '2',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '2',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_metadata_url',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_object_id' => array(
+        'label' => 'Object ID',
+        'widget' => array(
+          'weight' => '4',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '0',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '0',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_object_id',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_object_type' => array(
+        'label' => 'Object Type',
+        'widget' => array(
+          'weight' => '5',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '1',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '1',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_object_type',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_parent_id' => array(
+        'label' => 'Parent ID',
+        'widget' => array(
+          'weight' => '2',
+          'type' => 'number',
+          'module' => 'number',
+          'active' => 0,
+          'settings' => array(),
+        ),
+        'settings' => array(
+          'min' => '',
+          'max' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '10',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '10',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_parent_id',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_site' => array(
+        'label' => 'Site',
+        'widget' => array(
+          'weight' => '7',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '3',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '3',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => array(
+          0 => array(
+            'value' => 'eldis',
+          ),
+        ),
+        'field_name' => 'field_site',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_superparent_id' => array(
+        'label' => 'Superparent ID',
+        'widget' => array(
+          'weight' => '3',
+          'type' => 'number',
+          'module' => 'number',
+          'active' => 0,
+          'settings' => array(),
+        ),
+        'settings' => array(
+          'min' => '',
+          'max' => '',
+          'prefix' => '',
+          'suffix' => '',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '8',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'number_integer',
+            'weight' => '8',
+            'settings' => array(
+              'thousand_separator' => ' ',
+              'decimal_separator' => '.',
+              'scale' => 0,
+              'prefix_suffix' => TRUE,
+            ),
+            'module' => 'number',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_superparent_id',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_timestamp' => array(
+        'label' => 'Timestamp',
+        'widget' => array(
+          'weight' => '10',
+          'type' => 'date_select',
+          'module' => 'date',
+          'active' => 1,
+          'settings' => array(
+            'input_format' => 'm/d/Y - H:i:s',
+            'input_format_custom' => '',
+            'year_range' => '-3:+3',
+            'increment' => '15',
+            'label_position' => 'above',
+            'text_parts' => array(),
+          ),
+        ),
+        'settings' => array(
+          'default_value' => 'now',
+          'default_value_code' => '',
+          'default_value2' => 'same',
+          'default_value_code2' => '',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'date_default',
+            'weight' => '5',
+            'settings' => array(
+              'format_type' => 'long',
+              'multiple_number' => '',
+              'multiple_from' => '',
+              'multiple_to' => '',
+              'fromto' => 'both',
+            ),
+            'module' => 'date',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'date_default',
+            'weight' => '5',
+            'settings' => array(
+              'format_type' => 'long',
+              'multiple_number' => '',
+              'multiple_from' => '',
+              'multiple_to' => '',
+              'fromto' => 'both',
+            ),
+            'module' => 'date',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'field_name' => 'field_timestamp',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
+        'deleted' => '0',
+      ),
+    'field_website_url' => array(
+        'label' => 'Website URL',
+        'widget' => array(
+          'weight' => '9',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '4',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'full' => array(
+            'label' => 'inline',
+            'type' => 'text_default',
+            'weight' => '4',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_website_url',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => 'ids_subjects',
         'deleted' => '0',
       ),
   );

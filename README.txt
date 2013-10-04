@@ -13,25 +13,16 @@ The goal of the module is to allow retrieving data from the IDS Collections (Eld
   Please note that the module is designed to cache API responses in order to minimise external calls.
   The module handles paged responses (overriding the API's default number of items).
 
+* Examples * 
+
+-   Examples of uses are included in: idswrapper/examples.php
+
 * Instructions *
 
-- API calls are implemented through the class IdsApiRequest (idsapi.request.inc).
+- API calls are implemented through the class IdsApiRequest (idswrapper.wrapper.inc).
 - Items retrieved are made available to Drupal by an object of class IdsApiResponse (idsapi.response.inc), which includes
   the total number of items retrieved and an array of objects retrieved implemented by subclasses of IdsApiObject (for instance:
   IdsApiObjectAssetDocument, IdsApiObjectAssetOrganisation, etc.).
-
-  Example (to retrieve the complete information of the 20 most recent documents added to the Eldis collection focused on Afghanistan):
-
-  $request = new IdsApiRequest();
-  $request->num_requested = 20;
-  $request->type_request = 'search';
-  $request->object_type = 'documents';
-  $request->format = 'full';
-  $request->site = 'eldis';
-  $request->setSearchParam('country', 'Afghanistan');
-  $response = $request->makeRequest();
-  /* $response->results is now an array containing 20 objects of class IdsApiObjectAssetDocument */
-
 - Check the parameters and types of requests supported by the API at: http://api.dev.ids.ac.uk/docs/functions/
 - Please note that currently the module supports only 'search', 'get' and 'get_all' queries.
 

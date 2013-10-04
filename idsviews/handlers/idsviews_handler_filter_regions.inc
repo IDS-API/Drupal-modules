@@ -14,7 +14,7 @@ class idsviews_handler_filter_regions extends views_handler_filter {
       $dataset = $this->view->query->request->site;
     }
     else {
-      $dataset = IDS_DEFAULT_DATASET;
+      $dataset = IDS_API_DEFAULT_DATASET;
     }
     $response = idsapi_get_all('regions', $dataset, 'short');
     if (isset($response->results)) {
@@ -32,7 +32,7 @@ class idsviews_handler_filter_regions extends views_handler_filter {
       '#title'  => t('Regions'),
       '#multiple' => TRUE,
       '#options'  => $regions_values,
-      '#default_value'  => $regions_values,
+      '#default_value'  => $this->value,
     );
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];

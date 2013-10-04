@@ -93,6 +93,23 @@ function idsimport_content_types() {
       'disabled_changed' => FALSE,
       'bc_entity_type' => 'node',
     );
+    $types[IDS_IMPORT_SUBJECTS_FEED_TYPE] = array(   
+      'type' => IDS_IMPORT_SUBJECTS_FEED_TYPE,
+      'name' => 'IDS Subjects Feed',
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => 'Feeds for subjects imported via the IDS API.',
+      'help' => '',
+      'has_title' => '1',
+      'title_label' => 'Title',
+      'custom' => '1',
+      'modified' => '1',
+      'locked' => '1',
+      'disabled' => FALSE,
+      'orig_type' => IDS_IMPORT_SUBJECTS_FEED_TYPE,
+      'disabled_changed' => FALSE,
+      'bc_entity_type' => 'node',
+    );
     $types[IDS_IMPORT_REGIONS_FEED_TYPE] = array(   
       'type' => IDS_IMPORT_REGIONS_FEED_TYPE,
       'name' => 'IDS Regions Feed',

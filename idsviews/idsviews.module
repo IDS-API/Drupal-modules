@@ -6,8 +6,8 @@
  *   A Views backend to query the IDS API.
  */
 module_load_include('inc', 'idsapi', 'default');
-
-define('IDS_VIEWS_DEFAULT_SIZE_CATEGORIES', 28);
+require_once(IDS_API_LIBRARY_PATH . 'idswrapper.wrapper.inc');
+define('IDS_VIEWS_DEFAULT_SIZE_CATEGORIES', 40);
 
 /**
  * Implementation of hook_views_api().
@@ -55,6 +55,8 @@ function idsviews_views_plugins() {
  * Implementation of hook_views_data().
  */
 function idsviews_views_data() {
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+
   // Documents
   // Base data
   $data['idsviews_documents']['table']['group']  = t('IDS');
@@ -149,6 +151,15 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_field_categories',
     ),
   );
+  if ($additional_fields) {
+  $data['idsviews_documents']['category_subject_array'] = array(
+    'title' => t('Subjects'),
+    'help' => t('Subject-based categories which apply to the document.'),
+    'field' => array(
+      'handler' => 'idsviews_handler_field_categories',
+    ),
+  );
+  }
   $data['idsviews_documents']['category_region_array'] = array(
     'title' => t('Regions'),
     'help' => t('Regions that apply to the document.'),
@@ -267,6 +278,15 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_filter_themes',
     ),
   );
+  if ($additional_fields) {
+  $data['idsviews_documents']['subject_filter'] = array(
+    'title' => t('Subjects'),
+    'help' => t('Filter by subjects'),
+    'filter' => array(
+      'handler' => 'idsviews_handler_filter_subjects',
+    ),
+  );
+  }
   $data['idsviews_documents']['license_filter'] = array(
     'title' => t('License'),
     'help' => t('Filter by type of license. See help at http://api.ids.ac.uk/docs/functions/search/'),
@@ -468,6 +488,15 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_field_categories',
     ),
   );
+  if ($additional_fields) {
+  $data['idsviews_organisations']['category_subject_array'] = array(
+    'title' => t('Subjects'),
+    'help' => t('Subject categories which apply to the document.'),
+    'field' => array(
+      'handler' => 'idsviews_handler_field_categories',
+    ),
+  );
+  }
   $data['idsviews_organisations']['category_region_array'] = array(
     'title' => t('Regions'),
     'help' => t('Regions that apply to the document.'),
@@ -589,6 +618,15 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_filter_themes',
     ),
   );
+  if ($additional_fields) {
+  $data['idsviews_organisations']['subject_filter'] = array(
+    'title' => t('Subjects'),
+    'help' => t('Filter by subject'),
+    'filter' => array(
+      'handler' => 'idsviews_handler_filter_themes',
+    ),
+  );
+  }
   $data['idsviews_organisations']['license_filter'] = array(
     'title' => t('License'),
     'help' => t('Filter by type of license. See help at http://api.ids.ac.uk/docs/functions/search/'),
@@ -649,6 +687,30 @@ function idsviews_views_data() {
   );
 
   return $data;
+}
+
+/**
+ * Hide/display subjects on default view depending on API key.
+ */
+function idsviews_ids_api_key() {
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  $assets =  array('documents','organisations');
+  foreach ($assets as $asset) {
+    $view_name = 'ids_' . $asset . '_view';
+    $view = views_get_view($view_name);
+    $table = 'idsviews_' . $asset;
+    if ($additional_fields) {
+      idsviews_display_subject_field($view->display['default'], $table);
+      idsviews_display_subject_filter($view->display['default'], $table);
+    }
+    else {
+      $field = 'category_subject_array';
+      $filter = 'subject_filter';
+      unset($view->display['default']->display_options['fields']['category_subject_array']);
+      unset($view->display['default']->display_options['filters']['subject_filter']);
+    }
+    views_ui_cache_set($view);
+  }
 }
 
 /**

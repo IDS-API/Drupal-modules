@@ -16,15 +16,13 @@
  * Include files that implement the request and objects classes
  */
 require_once('idsapi.default.inc');
-require_once('idsapi.request.inc');
-require_once('idsapi.response.inc');
-require_once('idsapi.object.inc');
+require_once(IDS_API_LIBRARY_PATH . 'idswrapper.default.inc');
 
 /**
  * Implements hook_flush_caches().
  */
 function idsapi_flush_caches() {
-  return array('idsapi_cache');
+  return array(IDS_API_CACHE_REQUESTS);
 }
 
 /**
@@ -39,7 +37,6 @@ function idsapi_enable() {
  * Implements hook_disable().
  */
 function idsapi_disable() {
-    // TODO Disable global variables
     drupal_flush_all_caches();
 }
 
@@ -67,7 +64,7 @@ function idsapi_menu() {
  */
 function idsapi_permission() {
   return array(
-    'administer my module' => array(
+    'administer idsapi' => array(
       'title' => t('Administer the IDS API module'), 
       'description' => t('Perform administration tasks for the IDS API module.'),
     ),
@@ -83,6 +80,26 @@ function idsapi_help($path, $arg) {
   }
 }
 
+/**
+ * Function used to retrieve IDS items using get_all.
+ */
+function idsapi_get_all($type, $set, $format) {
+  $idswrapper = new IdsApiWrapper;
+  $api_key = variable_get('idsapi_api_key', '');
+  $response = $idswrapper->getAll($type, $set, $api_key, $format);
+  return $response;
+}
+
+/**
+ * Function used to retrieve IDS items using search, with parameters.
+ */
+function idsapi_search($type, $set, $format, $params) {
+  $idswrapper = new IdsApiWrapper;
+  $api_key = variable_get('idsapi_api_key', '');
+  $response = $idswrapper->search($type, $set, $api_key, $format, 0, 0, $params);
+  return $response;
+}
+
 /* ---------------- Examples of calls to the IDS API --------------- */
 
 /**
@@ -90,22 +107,18 @@ function idsapi_help($path, $arg) {
  */
 function idsapi_block_info() {
   $blocks = array();
-  
   $blocks['idsapi_eldis_documents'] = array(
     'info' => t('Eldis documents'),
     'cache' => DRUPAL_NO_CACHE,
   );
-  
   $blocks['idsapi_eldis_organisations'] = array(
     'info' => t('Eldis organisations'),
     'cache' => DRUPAL_NO_CACHE,
   );
-  
   $blocks['idsapi_bridge_documents'] = array(
     'info' => t('Bridge documents'),
     'cache' => DRUPAL_NO_CACHE,
   );
-
   return $blocks;
 }
 
@@ -113,14 +126,13 @@ function idsapi_block_info() {
  * Implements hook_block_view().
  */
 function idsapi_block_view($block_name = '') {
-
   $block = array();
   $content = '';
 
   // Retrieves latest Eldis documents
-  if ($block_name == 'idsapi_eldis_documents') {
+  if ($block_name == 'idsapi_latest_eldis_documents') {
     $response = idsapi_get_all('documents', 'eldis', 'full');
-    $items = $response->htmlShortListObjects();
+    $items = $response->getArrayLinks();
     if (is_array($items)) {
       $theme_args = array('items' => $items, 'type' => 'ol');
       $content = theme('item_list', $theme_args);
@@ -132,9 +144,9 @@ function idsapi_block_view($block_name = '') {
   }
   
   // Retrieves latest Eldis organisations
-  if ($block_name == 'idsapi_eldis_organisations') {
+  if ($block_name == 'idsapi_latest_eldis_organisations') {
     $response = idsapi_get_all('organisations', 'eldis', 'full');
-    $items = $response->htmlShortListObjects();
+    $items = $response->getArrayLinks();
     if (is_array($items)) {
       $theme_args = array('items' => $items, 'type' => 'ol');
       $content = theme('item_list', $theme_args);
@@ -146,9 +158,9 @@ function idsapi_block_view($block_name = '') {
   }
   
     // Retrieves latest Bridge documents
-  if ($block_name == 'idsapi_bridge_documents') {
+  if ($block_name == 'idsapi_latest_bridge_documents') {
     $response = idsapi_get_all('documents', 'bridge', 'full');
-    $items = $response->htmlShortListObjects();
+    $items = $response->getArrayLinks();
     if (is_array($items)) {
       $theme_args = array('items' => $items, 'type' => 'ol');
       $content = theme('item_list', $theme_args);
@@ -158,45 +170,11 @@ function idsapi_block_view($block_name = '') {
     }
     $block['subject'] = t('Bridge latest documents');
   }
-
   $block['content'] = $content;
-
   return $block;
-
 }
 
-/**
- * Function used to retrieve IDS items using get_all.
- */
-function idsapi_get_all($type, $set, $format) {
-  $request = new IdsApiRequest();
-  $request->num_requested = 0;
-  $request->type_request = 'get_all';
-  $request->object_type = $type;
-  $request->format = $format;
-  $request->site = $set;
-  $response = $request->makeRequest();
-  return $response;
-}
 
-/**
- * Function used to retrieve IDS items using search, with parameters.
- */
-function idsapi_search($type, $set, $format, $params) {
-  $request = new IdsApiRequest();
-  $request->num_requested = 0;
-  $request->type_request = 'search';
-  $request->object_type = $type;
-  $request->format = $format;
-  $request->site = $set;
-  if ($params) {
-    foreach ($params as $key => $value) {
-      $request->setSearchParam($key, $value);
-    }
-  }
-  $response = $request->makeRequest();
-  return $response;
-}
 
 
 

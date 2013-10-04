@@ -11,7 +11,13 @@
  * Note: The author of the imported assets is a required field. It's set globally and overrides the importers'. 
  */
 function idsimport_settings_form() {
+  $idswrapper = new IdsApiWrapper();
   $form = array();
+  $additional_fields = variable_get('idsapi_additional_fields', FALSE);
+  $list_categories = 'regions, countries, themes';
+  if ($additional_fields) {
+    $list_categories .= ', subjects';
+  }
 
   $form['#submit'][] = 'idsimport_settings_form_submit';
 
@@ -31,14 +37,14 @@ function idsimport_settings_form() {
       'bridge' => 'Bridge',
     ),
     '#required' => TRUE,
-    '#default_value' => variable_get('idsimport_default_dataset', IDS_DEFAULT_DATASET),
+    '#default_value' => variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET),
     '#description' => t('IDS dataset to be used by default.'),
   );
 
   $form['general']['assets'] = array (
     '#type' => 'fieldset',
     '#title' => t('General importing settings'),
-    '#description' => t('These settings apply both to manual and periodic automatic imports of <b>documents</b> and <b>organisations</b>.<br>Please note that no partial importing is available for categories (regions, themes and countries):<br> if chosen, all of the items in the categories sets are imported in order to preserve the internal coherence of the data.'),
+    '#description' => t('These settings apply both to manual and periodic automatic imports of <b>documents</b> and <b>organisations</b>.<br>Please note that no partial importing is available for categories (' . $list_categories . '):<br> if chosen, all of the items in the categories sets are imported in order to preserve the internal coherence of the data.'),
     '#prefix' => '<div class="idsimport-form-general">',
     '#suffix' => '</div>',
   );
@@ -66,6 +72,19 @@ function idsimport_settings_form() {
     '#required' => FALSE,
     '#default_value' => variable_get('idsimport_age_new_assets', IDS_IMPORT_AGE_NEW_ASSETS),
     '#description' => t('Import documents and/or organisations posted within the indicated period.'),
+  );
+
+  $form['general']['assets']['idsimport_levels_categories'] = array(
+    '#title' => t('Levels of categories'),
+    '#type' => 'select',
+    '#options' => array(
+      '1|2' => t('Categories in levels 1 and 2'),
+      '1' => t('Categories in level 1'),
+      '' => t('Categories in all levels'),
+    ),
+    '#required' => FALSE,
+    '#default_value' => variable_get('idsimport_levels_categories', IDS_IMPORT_LEVELS_CATEGORIES),
+    '#description' => t('The levels of categories to import.'),
   );
 
   $form['general']['assets']['idsimport_new_user'] = array(
@@ -104,7 +123,7 @@ function idsimport_settings_form() {
   
   $form['enable']['idsimport_check_enable_categories'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable periodic importing of IDS categories (regions, countries, themes).'),
+    '#title' => t('Enable periodic importing of IDS categories (' . $list_categories .').'),
     '#default_value' => variable_get('idsimport_check_enable_categories', FALSE),
   );
 
@@ -198,15 +217,19 @@ function idsimport_settings_form() {
     ), 
   );
 
+  $options_enable_categories = array(
+      IDS_IMPORT_IMPORTER_REGIONS => t('Regions'),
+      IDS_IMPORT_IMPORTER_THEMES => t('Themes'),
+      IDS_IMPORT_IMPORTER_COUNTRIES => t('Countries'),
+  );
+  if ($additional_fields) {
+      $options_enable_categories[IDS_IMPORT_IMPORTER_SUBJECTS] = t('Subjects');
+  }
   $form['enable']['categories']['idsimport_enable_categories'] = array(
     '#title' => t('Categories to import periodically'),
     '#type' => 'checkboxes',
     '#multiple' => TRUE,
-    '#options' => array(
-      IDS_IMPORT_IMPORTER_REGIONS => t('Regions'),
-      IDS_IMPORT_IMPORTER_THEMES => t('Themes'),
-      IDS_IMPORT_IMPORTER_COUNTRIES => t('Countries'),
-     ),
+    '#options' => $options_enable_categories,
     '#states' => array(
       'visible' => array(
         ':input[name="idsimport_check_enable_categories"]' => array('checked' => TRUE),
@@ -240,7 +263,7 @@ function idsimport_settings_form() {
         ':input[name="idsimport_check_enable_categories"]' => array('checked' => TRUE),
       ),
     ),
-    '#description' => t('Choose how often IDS categories (regions, themes, countries) should be imported (<a href="@cronurl">requires cron to be configured</a>).', array('@cronurl' => url('admin/config/system/cron'))),
+    '#description' => t('Choose how often IDS categories (' . $list_categories . ') should be imported (<a href="@cronurl">requires cron to be configured</a>).', array('@cronurl' => url('admin/config/system/cron'))),
   );
 
   $form['enable'][] = array(
@@ -262,17 +285,21 @@ function idsimport_settings_form() {
     '#default_value' => variable_get('idsimport_check_import', FALSE),
   );
 
-  $form['import']['idsimport_import'] = array(
-    '#title' => t('Items to import'),
-    '#type' => 'checkboxes',
-    '#multiple' => TRUE,
-    '#options' => array(
+  $options_categories_import = array(
       IDS_IMPORT_IMPORTER_DOCUMENTS => t('Documents'),
       IDS_IMPORT_IMPORTER_ORGANISATIONS => t('Organisations'),
       IDS_IMPORT_IMPORTER_REGIONS => t('Regions'),
       IDS_IMPORT_IMPORTER_COUNTRIES => t('Countries'),
       IDS_IMPORT_IMPORTER_THEMES => t('Themes'),
-     ),
+  );
+  if ($additional_fields) {
+      $options_categories_import[IDS_IMPORT_IMPORTER_SUBJECTS] = t('Subjects');
+  }
+  $form['import']['idsimport_import'] = array(
+    '#title' => t('Items to import'),
+    '#type' => 'checkboxes',
+    '#multiple' => TRUE,
+    '#options' => $options_categories_import,
     '#states' => array(
       'visible' => array(
         ':input[name="idsimport_check_import"]' => array('checked' => TRUE),
@@ -316,17 +343,21 @@ function idsimport_settings_form() {
     ),
   );
 
+  $options_delete_types = array(
+      IDS_IMPORT_DOCUMENTS_TYPE => t('Documents'),
+      IDS_IMPORT_ORGANISATIONS_TYPE => t('Organisations'),
+      IDS_IMPORT_REGIONS_VOCABULARY => t('Regions'),
+      IDS_IMPORT_COUNTRIES_VOCABULARY => t('Countries'),
+      IDS_IMPORT_THEMES_VOCABULARY => t('Themes'),
+  );
+  if ($additional_fields) {
+    $options_delete_types[IDS_IMPORT_SUBJECTS_VOCABULARY] = t('Subjects');
+  }
   $form['advanced']['delete']['idsimport_delete_types'] = array(
     '#title' => t('Delete items imported from the IDS collection'),
     '#type' => 'checkboxes',
     '#multiple' => TRUE,
-    '#options' => array(
-      IDS_IMPORT_DOCUMENTS_TYPE => t('Documents'),
-      IDS_IMPORT_ORGANISATIONS_TYPE => t('Organisations'),
-      IDS_IMPORT_REGIONS_VOCABULARY => t('Regions'),
-      IDS_IMPORT_THEMES_VOCABULARY => t('Themes'),
-      IDS_IMPORT_COUNTRIES_VOCABULARY => t('Countries'),
-     ),
+    '#options' => $options_delete_types,
     '#required' => FALSE,
     '#states' => array(
       'visible' => array(

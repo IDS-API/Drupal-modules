@@ -7,13 +7,14 @@
  */
 class IdsContentFetcherResult extends FeedsFetcherResult {
 
+  // Object of type IdsApiResponse that holds the results of the API call.
   public $ids_api_response;
 
  /**
   * Constructor. Makes the call to the IDS API.
   */
   public function __construct($fetcher) {
-    $this->ids_api_response = $fetcher->ids_api_request->makeRequest();
+    $this->ids_api_response = $fetcher->ids_api_wrapper->makeRequest();
   }
 
 }
@@ -23,25 +24,22 @@ class IdsContentFetcherResult extends FeedsFetcherResult {
  */
 class IdsAssetsFetcher extends FeedsFetcher {
 
-  public $ids_api_request;
+  // Object of type IdsApiWrapper that performs the API request.
+  public $ids_api_wrapper;
 
   /**
    * Overrides parent::__construct().
    */
   public function __construct() {
-    $this->ids_api_request = new IdsApiRequest();
-    $this->ids_api_request->site = variable_get('idsimport_default_dataset', IDS_DEFAULT_DATASET);
-    $this->ids_api_request->num_requested = variable_get('idsimport_number_assets', IDS_IMPORT_NUM_ASSETS);
-    $this->ids_api_request->age_results = variable_get('idsimport_age_new_assets', IDS_IMPORT_AGE_NEW_ASSETS);
+    $this->ids_api_wrapper = new IdsApiWrapper();
+    $this->ids_api_wrapper->setApiKey(variable_get('idsapi_api_key', ''));
+    $this->ids_api_wrapper->setSite(variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET));
+    $this->ids_api_wrapper->setNumRequested(variable_get('idsimport_number_assets', IDS_IMPORT_NUM_ASSETS));
+    $this->ids_api_wrapper->setAgeResults(variable_get('idsimport_age_new_assets', IDS_IMPORT_AGE_NEW_ASSETS));
+    $this->ids_api_wrapper->setFormat('full');
     $query_string = variable_get('idsimport_query_string');
     if ($query_string) {
-      $search_params = explode(',',$query_string);
-      foreach ($search_params as $search_param) {
-        $param = explode('=',trim($search_param));
-        $key = $param[0];
-        $value = $param[1];
-        $this->ids_api_request->setSearchParam($key, $value);
-      }
+      $this->ids_api_wrapper->setQueryString($query_string);
     }
   }
 
@@ -49,14 +47,9 @@ class IdsAssetsFetcher extends FeedsFetcher {
    * Overrides parent::fetch().
    */
   public function fetch(FeedsSource $source) {
-    $this->ids_api_request->object_type = $this->config['asset_type'];
+    $this->ids_api_wrapper->setObjectType($this->config['asset_type']);
     $fetcher_result = new IdsContentFetcherResult($this);
-    if ($fetcher_result->ids_api_response) {
-      return $fetcher_result;
-    }
-    else {
-      return FALSE;
-    }
+    return $fetcher_result;
   }
   
   /**
@@ -94,14 +87,20 @@ class IdsAssetsFetcher extends FeedsFetcher {
  */
 class IdsCategoriesFetcher extends FeedsFetcher {
 
-  public $ids_api_request;
+  public $ids_api_wrapper;
 
   /**
    * Overrides parent::__construct().
    */
   public function __construct() {
-    $this->ids_api_request = new IdsApiRequest();
-    $this->ids_api_request->site = variable_get('idsimport_default_dataset', IDS_DEFAULT_DATASET);
+    $this->ids_api_wrapper = new IdsApiWrapper();
+    $this->ids_api_wrapper->setApiKey(variable_get('idsapi_api_key', ''));
+    $this->ids_api_wrapper->setSite(variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET));
+    $this->ids_api_wrapper->setFormat('full');
+    $query_string = variable_get('idsimport_query_string');
+    if ($query_string) {
+      $this->ids_api_wrapper->setQueryString($query_string);
+    }
   }
 
   /**
@@ -109,14 +108,15 @@ class IdsCategoriesFetcher extends FeedsFetcher {
    * Note: The defined default dataset is used.
    */
   public function fetch(FeedsSource $source) {
-    $this->ids_api_request->object_type = $this->config['category_type'];
+    $this->ids_api_wrapper->setObjectType($this->config['category_type']);
+    if (($this->config['category_type'] == 'themes') || ($this->config['category_type'] == 'subjects') || ($this->config['category_type'] == 'regions')) {
+      $levels = variable_get('idsimport_levels_categories');
+      if ($levels) {
+        $this->ids_api_wrapper->setParam('level', $levels);
+      }
+    }
     $fetcher_result = new IdsContentFetcherResult($this);
-    if ($fetcher_result->ids_api_response) {
-      return $fetcher_result;
-    }
-    else {
-      return FALSE;
-    }
+    return $fetcher_result;
   }
   
   /**
@@ -138,6 +138,7 @@ class IdsCategoriesFetcher extends FeedsFetcher {
       '#type' => 'select',
       '#options' => array(
         'themes' => t('Themes'),
+        'subjects' => t('Subjects'),
         'regions' => t('Regions'),
         'countries' => t('Countries'),
        ),
@@ -188,7 +189,8 @@ class IdsAssetsParser extends FeedsParser {
     $result = new FeedsParserResult();
     $response = $fetcher_result->ids_api_response;
     if ($response instanceof IdsApiResponse) {
-      foreach($response->results as $asset) {
+      $results = $response->getResults();
+      foreach($results as $asset) {
         $item = array(
           'object_id' => $asset->object_id,
           'object_type' => $asset->object_type,
@@ -219,7 +221,7 @@ class IdsDocumentsParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
@@ -260,6 +262,10 @@ class IdsDocumentsParser extends FeedsParser {
       'category_theme_array' => array(
         'name' => t('Themes'),
         'description' => t('Thematic categories which apply to the document.'),
+      ),
+      'category_subject_array' => array(
+        'name' => t('Subjects'),
+        'description' => t('Subject categories which apply to the document.'),
       ),
       'category_region_array' => array(
         'name' => t('Regions'),
@@ -311,7 +317,8 @@ class IdsDocumentsParser extends FeedsParser {
     $result = new FeedsParserResult();
     $response = $fetcher_result->ids_api_response;
     if ($response instanceof IdsApiResponse) {
-      foreach($response->results as $asset) {
+      $results = $response->getResults();
+      foreach($results as $asset) {
         $item = array(
           'object_id' => $asset->object_id,
           'object_type' => $asset->object_type,
@@ -325,6 +332,7 @@ class IdsDocumentsParser extends FeedsParser {
           'date_created' => $asset->date_created,
           'date_updated' => $asset->date_updated,
           'category_theme_array' => $asset->category_theme_array,
+          'category_subject_array' => $asset->category_subject_array,
           'category_region_array' => $asset->category_region_array,
           'country_focus_array' => $asset->country_focus_array,
           'keywords' => $asset->keywords,
@@ -360,7 +368,7 @@ class IdsOrganisationsParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
@@ -401,6 +409,10 @@ class IdsOrganisationsParser extends FeedsParser {
       'category_theme_array' => array(
         'name' => t('Themes'),
         'description' => t('Thematic categories which apply to the organisation.'),
+      ),
+      'category_subject_array' => array(
+        'name' => t('Subjects'),
+        'description' => t('Subject categories which apply to the organisation.'),
       ),
       'category_region_array' => array(
         'name' => t('Regions'),
@@ -452,7 +464,8 @@ class IdsOrganisationsParser extends FeedsParser {
     $result = new FeedsParserResult();
     $response = $fetcher_result->ids_api_response;
     if ($response instanceof IdsApiResponse) {
-      foreach($response->results as $asset) {
+      $results = $response->getResults();
+      foreach($results as $asset) {
         $item = array(
           'object_id' => $asset->object_id,
           'object_type' => $asset->object_type,
@@ -466,6 +479,7 @@ class IdsOrganisationsParser extends FeedsParser {
           'date_created' => $asset->date_created,
           'date_updated' => $asset->date_updated,
           'category_theme_array' => $asset->category_theme_array,
+          'category_subject_array' => $asset->category_subject_array,
           'category_region_array' => $asset->category_region_array,
           'country_focus_array' => $asset->country_focus_array,
           'keywords' => $asset->keywords,
@@ -550,29 +564,34 @@ class IdsCategoriesParser extends FeedsParser {
     $result = new FeedsParserResult();
     $response = $fetcher_result->ids_api_response;
     if ($response instanceof IdsApiResponse) {
-      foreach($response->results as $category) {
-        // We are now including in the results only not archived categories.
-        if ($category->archived === 'false') {
-          $item = array(
-            'name' => $category->name,
-            'category_id' => $category->category_id,
-            'cat_superparent' => $category->cat_superparent,
-            'site' => $category->site,
-            'website_url' => $category->website_url,
-            'metadata_url' => $category->metadata_url,
-            'object_id' => $category->object_id,
-            'object_type' => $category->object_type,
-            'timestamp' => $category->timestamp,
-            'archived' => 0,
-          );
-          if (($category->cat_parent == 1) || ($category->cat_parent == 2)){
-            $item['cat_parent'] = 0;
-          }
-          else {
-            $item['cat_parent'] = $category->cat_parent;
-          }
-          $result->items[] = $item;
+      $results = $response->getResults();
+      foreach($results as $category) {
+        $item = array(
+          'name' => $category->name,
+          'title' => $category->title,
+          'category_id' => $category->category_id,
+          'cat_superparent' => $category->cat_superparent,
+          'parent_object_id' => $category->parent_object_id,
+          'site' => $category->site,
+          'website_url' => $category->website_url,
+          'metadata_url' => $category->metadata_url,
+          'object_id' => $category->object_id,
+          'object_type' => $category->object_type,
+          'timestamp' => $category->timestamp,
+        );
+        if (isset($category->archived) && ($category->archived === 'true')) {
+          $item['archived'] = 1;
         }
+        else {
+          $item['archived'] = 0;
+        }
+        if (($category->cat_parent == 1) || ($category->cat_parent == 2)){
+          $item['cat_parent'] = 0;
+        }
+        else {
+          $item['cat_parent'] = $category->cat_parent;
+        }
+        $result->items[] = $item;
       }
     }
     return $result;
@@ -596,7 +615,7 @@ class IdsCountriesParser extends FeedsParser {
       ),
       'object_type' => array(
         'name' => t('Object type'),
-        'description' => t('Type of object. (Document, Publication, Theme, Region, Country).'),
+        'description' => t('Type of object. (Document, Publication, Theme, Subject, Region, Country).'),
       ),
       'title' => array(
         'name' => t('Title'),
@@ -656,7 +675,8 @@ class IdsCountriesParser extends FeedsParser {
     $result = new FeedsParserResult();
     $response = $fetcher_result->ids_api_response;
     if ($response instanceof IdsApiResponse) {
-      foreach($response->results as $country) {
+      $results = $response->getResults();
+      foreach($results as $country) {
         $item = array(
           'object_id' => $country->object_id,
           'object_type' => $country->object_type,
@@ -693,12 +713,12 @@ class IdsAssetsProcessor extends FeedsNodeProcessor {
   /**
    * Make hash and newItemInfo methods public
    */
-  public function hash($item) {
-    return parent::hash($item);
+  public function generateHash($item) {
+    return $this->hash($item);
   }
 
-  public function newItemInfo($entity, $feed_nid, $hash) {
-    parent::newItemInfo($entity, $feed_nid, $hash);
+  public function newIdsItemInfo($entity, $feed_nid, $hash) {
+    $this->newItemInfo($entity, $feed_nid, $hash);
   }
 
   /**
@@ -804,12 +824,12 @@ class IdsCategoriesProcessor extends FeedsTermProcessor {
   /**
    * Make hash and newItemInfo methods public
    */
-  public function hash($item) {
-    return parent::hash($item);
+  public function generateHash($item) {
+    return $this->hash($item);
   }
 
-  public function newItemInfo($entity, $feed_nid, $hash) {
-    parent::newItemInfo($entity, $feed_nid, $hash);
+  public function newIdsItemInfo($entity, $feed_nid, $hash) {
+    $this->newItemInfo($entity, $feed_nid, $hash);
   }
 
 }

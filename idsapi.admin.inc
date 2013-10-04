@@ -30,7 +30,7 @@ function idsapi_settings_form() {
       'bridge' => 'Bridge',
     ),
     '#required' => FALSE,
-    '#default_value' => variable_get('idsapi_default_dataset', IDS_DEFAULT_DATASET),
+    '#default_value' => variable_get('idsapi_default_dataset', IDS_API_DEFAULT_DATASET),
     '#description' => t('IDS dataset to be used by default.'),
   );
 
@@ -40,7 +40,7 @@ function idsapi_settings_form() {
     '#size' => 10,
     '#maxlength' => 10,
     '#required' => FALSE,
-    '#default_value' => variable_get('idsapi_number_items', IDS_NUM_ITEMS),
+    '#default_value' => variable_get('idsapi_number_items', IDS_API_NUM_ITEMS),
     '#description' => t('Max. number of items to retrieve in each call to the IDS API.'),
   );
 
@@ -55,7 +55,7 @@ function idsapi_settings_form() {
       '0' => t('Permanent'),
     ),
     '#required' => FALSE,
-    '#default_value' => variable_get('idsapi_cache_time', IDS_DEFAULT_CACHE_TIME),
+    '#default_value' => variable_get('idsapi_cache_time', IDS_API_DEFAULT_CACHE_TIME),
     '#description' => t('How long cached values from the API should be considered valid.'),
   );
   
@@ -90,9 +90,20 @@ function idsapi_cache_clear(&$form) {
  * Validates the form settings input.
  */
 function idsapi_settings_form_validate($form, &$form_state) {
+  $idswrapper = new IdsApiWrapper();
   $reg = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/';
   if (!preg_match($reg, $form_state['values']['idsapi_api_key'])) {
     form_set_error('idsapi_api_key', t('The API key has an invalid format.'));
+  }
+  else {
+    if (!$idswrapper->validateKey($form_state['values']['idsapi_api_key'])) {
+      form_set_error('idsapi_api_key', t('The API key could not be verified. Please check that you have entered a valid API key.'));
+    }
+    else {
+      variable_set('idsapi_additional_fields', $idswrapper->additionalFieldsAvailable($form_state['values']['idsapi_api_key']));
+      // We have to rebuild forms and menus in order to show/hide additional fields (such as subjects) in the admin area.
+      module_invoke_all('ids_api_key');
+    }
   }
   $num_items = $form_state['values']['idsapi_number_items'];
   if (isset($num_items) && !is_numeric($num_items)) {
