@@ -196,6 +196,13 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_field_authors',
     ),
   );
+  $data['idsviews_documents']['corporate_author'] = array(
+    'title' => t('Corporate authors'),
+    'help' => t('Corporate Authors.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
   $data['idsviews_documents']['language_name'] = array(
     'title' => t('Language'),
     'help' => t('The language in which the title, headline and description are written.'),

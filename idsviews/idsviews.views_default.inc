@@ -371,6 +371,31 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['urls']['empty_zero'] = 0;
   $handler->display->display_options['fields']['urls']['hide_alter_empty'] = 1;
 
+
+  /* Field: IDS: Corporate Authors */
+  $handler->display->display_options['fields']['corporate_author']['id'] = 'corporate_author';
+  $handler->display->display_options['fields']['corporate_author']['table'] = 'idsviews_documents';
+  $handler->display->display_options['fields']['corporate_author']['field'] = 'corporate_author';
+  $handler->display->display_options['fields']['corporate_author']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['corporate_author']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['corporate_author']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['corporate_author']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['corporate_author']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['corporate_author']['hide_alter_empty'] = 1;
+
+
   /* Sort criterion: IDS: Sort order */
   $handler->display->display_options['sorts']['sort_order']['id'] = 'sort_order';
   $handler->display->display_options['sorts']['sort_order']['table'] = 'idsviews_documents';
