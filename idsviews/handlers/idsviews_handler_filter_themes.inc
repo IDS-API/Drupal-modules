@@ -37,8 +37,9 @@ class idsviews_handler_filter_themes extends views_handler_filter {
       '#type' => 'select',
       '#title'  => t('Themes'),
       '#multiple' => TRUE,
+	  '#size' => 15,
       '#options'  => $themes_values,
-      '#default_value'  => $themes_values,
+      '#default_value'  => $this->value,
     );
     if (!empty($form_state['exposed'])) {
       $identifier = $this->options['expose']['identifier'];
