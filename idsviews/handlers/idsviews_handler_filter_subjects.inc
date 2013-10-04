@@ -37,6 +37,7 @@ class idsviews_handler_filter_subjects extends views_handler_filter {
       '#type' => 'select',
       '#title'  => t('Subjects'),
       '#multiple' => TRUE,
+      '#size' => 15,
       '#options'  => $subjects_values,
       '#default_value'  => $this->value,
     );
