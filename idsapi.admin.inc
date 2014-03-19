@@ -90,6 +90,9 @@ function idsapi_cache_clear(&$form) {
  * Validates the form settings input.
  */
 function idsapi_settings_form_validate($form, &$form_state) {
+  if (!class_exists("IdsApiWrapper")){
+    require IDS_API_LIBRARY_PATH . 'idswrapper.wrapper.inc';
+  }
   $idswrapper = new IdsApiWrapper();
   $reg = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/';
   if (!preg_match($reg, $form_state['values']['idsapi_api_key'])) {
