@@ -73,13 +73,13 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
     return FALSE;
   }
 
-  function add_orderby($order, $orderby_field) {
+  public function add_orderby($table, $field = NULL, $order = "ASC", $alias = '', $params = array()){
     $this->orderby = array(
       'order' => $order,
-      'orderby_field' => $orderby_field,
+      'orderby_field' => $field,
     );
   }
-  
+
   public function build(&$view) {
     $view->init_pager();
   }
