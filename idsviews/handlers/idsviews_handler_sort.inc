@@ -23,6 +23,6 @@ class idsviews_handler_sort extends views_handler_sort {
   }
 
   function query() {
-    $this->view->query->add_orderby($this->options['order'], $this->options['orderby_field']);
+    $this->view->query->add_orderby("idsapi", $this->options['orderby_field'], $this->options['order']);
   }
 }
