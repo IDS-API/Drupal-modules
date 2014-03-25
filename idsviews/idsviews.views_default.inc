@@ -176,6 +176,31 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['keywords']['empty_zero'] = 0;
   $handler->display->display_options['fields']['keywords']['hide_alter_empty'] = 0;
 
+  /* Field: IDS: metadata_languages */
+
+  $handler->display->display_options['fields']['metadata_languages']['id'] = "metadata_languages";
+  $handler->display->display_options['fields']['metadata_languages']['table'] = "idsviews_documents";
+  $handler->display->display_options['fields']['metadata_languages']['field'] = "metadata_languages";
+  $handler->display->display_options['fields']['metadata_languages']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['trim_whitespace'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['metadata_languages']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['hide_empty'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['empty_zero'] = 1;
+  $handler->display->display_options['fields']['metadata_languages']['hide_alter_empty'] = 1;
+
+
   /* Field: IDS: Themes */
   $handler->display->display_options['fields']['category_theme_array']['id'] = 'category_theme_array';
   $handler->display->display_options['fields']['category_theme_array']['table'] = 'idsviews_documents';
@@ -200,7 +225,7 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
 
-  /* Field: IDS: Subjects - Included only when using a partner´s API keys */
+  /* Field: IDS: Subjects - Included only when using a partnerï¿½s API keys */
   if ($additional_fields) {
     idsviews_display_subject_field($handler->display, 'idsviews_documents');
   }
@@ -471,7 +496,7 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
 
-  /* Filter criterion: IDS: Subjects - Included only when using a partner´s API keys */
+  /* Filter criterion: IDS: Subjects - Included only when using a partnerï¿½s API keys */
   if ($additional_fields) {
     idsviews_display_subject_filter($handler->display, 'idsviews_documents');
   }
@@ -1137,7 +1162,7 @@ function idsviews_views_default_views() {
   $handler->display->display_options['fields']['category_theme_array']['empty_zero'] = 0;
   $handler->display->display_options['fields']['category_theme_array']['hide_alter_empty'] = 0;
 
-  /* Field: IDS: Subjects - Included only when using a partner´s API keys */
+  /* Field: IDS: Subjects - Included only when using a partnerï¿½s API keys */
   if ($additional_fields) {
     idsviews_display_subject_field($handler->display, 'idsviews_organisations');
   }
@@ -1359,7 +1384,7 @@ function idsviews_views_default_views() {
   $handler->display->display_options['filters']['theme_filter']['expose']['identifier'] = 'theme_filter';
   $handler->display->display_options['filters']['theme_filter']['expose']['multiple'] = 1;
 
-  /* Filter criterion: IDS: Subjects - Included only when using a partner´s API keys */
+  /* Filter criterion: IDS: Subjects - Included only when using a partnerï¿½s API keys */
   if ($additional_fields) {
     idsviews_display_subject_filter($handler->display, 'idsviews_organisations');
   }

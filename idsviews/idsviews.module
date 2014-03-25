@@ -207,6 +207,13 @@ function idsviews_views_data() {
     'title' => t('Language'),
     'help' => t('The language in which the title, headline and description are written.'),
   );
+  $data['idsviews_documents']['metadata_languages'] = array(
+    'title' => t("Metadata languages"),
+    'help' => t("Metadata languages"),
+    'field' => array(
+      'handler' => "idsviews_handler_field_metadata_languages"
+    )
+  );
   $data['idsviews_documents']['publication_date'] = array(
     'title' => t('Publication date'),
     'help' => t('Year when the research document was first published.'),
