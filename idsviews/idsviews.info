@@ -10,6 +10,7 @@ files[] = idsviews.install
 files[] = plugins/idsviews_views_plugin_query.inc
 files[] = handlers/idsviews_handler_field_urls.inc
 files[] = handlers/idsviews_handler_field_keywords.inc
+files[] = handlers/idsviews_handler_field_metadata_languages.inc
 files[] = handlers/idsviews_handler_field_authors.inc
 files[] = handlers/idsviews_handler_field_categories.inc
 files[] = handlers/idsviews_handler_field_title.inc
