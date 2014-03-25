@@ -86,4 +86,24 @@ class idsviews_handler_filter_countries extends views_handler_filter {
       }
     }
   }
+
+  /**
+   * Display the filter on the administrative summary.
+   *
+   * We've added this to allow us to display values from arrays correctly.
+   */
+  function admin_summary() {
+    if (is_array($this->value)){
+      if (empty($this->value)){
+        $value = t("none");
+      }
+      else
+        $value = implode(", ", $this->value);
+    }
+    else {
+      $value = (string) $this->value;
+    }
+    return check_plain((string) $this->operator) . ' ' . check_plain($value);
+  }
+
 }
