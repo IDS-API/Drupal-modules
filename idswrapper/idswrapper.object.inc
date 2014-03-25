@@ -229,9 +229,14 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
   // External URLs. Array of strings. URLs of the full text document. 
   public $urls;
 
+  // Metadata languages. Array of strings. Languages for the document that are available.
+  public $metadata_languages;
+  // Language array. Contains different language versions of the fields.
+  public $language_array;
+
   // Headline. String. A short version of the title or description of the research document.
   // [Is not being returned by the API?]
-  // public $headline;
+  public $headline;
 
   /**
    * Constructor.
@@ -261,6 +266,15 @@ class IdsApiObjectAssetDocument extends IdsApiObjectAsset {
     }
     if (isset($object['urls'])) {
       $this->urls = $object['urls'];
+    }
+    if (isset($object['metadata_languages'])){
+      $this->metadata_languages = $object['metadata_languages'];
+    }
+    if (isset($object['language_array'])){
+      $this->language_array = $object['language_array'];
+    }
+    if (isset($object['headline'])){
+      $this->headline = $object['headline'];
     }
   }
 
