@@ -350,6 +350,23 @@ class IdsApiWrapper {
   }
 
   /**
+   * Set the object ID to filter by.
+   *
+   * This will be mostly used when we want to retrieve a single object.
+   *
+   * @param $id
+   *
+   * @return $this
+   */
+  public function setObjectId($id){
+    if (empty($this->request) || !is_callable(array($this->request, "setObjectId"))){
+      return $this;
+    }
+    $this->request->setObjectId($id);
+    return $this;
+  }
+
+  /**
   * Retrieve the URL.
   * We check first if there is a function that overrides this functionality (as in the case of Wordpress or Drupal).
   * @param string $url - API URL to get the data from.
