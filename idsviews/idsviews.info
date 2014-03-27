@@ -7,6 +7,7 @@ package = IDS
 
 files[] = idsviews.module
 files[] = idsviews.install
+files[] = idsviews.views_default.inc
 files[] = plugins/idsviews_views_plugin_query.inc
 files[] = handlers/idsviews_handler_field_urls.inc
 files[] = handlers/idsviews_handler_field_keywords.inc
