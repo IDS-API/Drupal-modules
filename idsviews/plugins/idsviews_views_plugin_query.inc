@@ -27,11 +27,11 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
   function add_filter($group, $filter, $value) {
     if ($this->check_filter($group, $filter)) {
       $value = preg_replace('/\s*(\&|AND)\s*/i','&',$value); 
-      $value = preg_replace('/\s*(\||OR)\s*/i','|',$value); 
+      $value = preg_replace('/\s*(\||OR)\s*/i','|',$value);
       $this->where[$group]['conditions'][] = array(
-        'field' => $filter, 
-        'value' => $value,
-      );
+            'field' => $filter,
+            'value' => $value
+          );
     }
     else {
       watchdog('idsviews', 'Filter !filter cannot be added to more than one group. Filter ignored.', array('!filter' => $filter), WATCHDOG_NOTICE);
@@ -140,6 +140,8 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
       $order = 'sort_' . strtolower($this->orderby['order']);
       $this->ids_wrapper->setParam($order, $this->orderby['orderby_field']);
     }
+    $dataset = variable_get('idsapi_default_dataset', IDS_API_DEFAULT_DATASET);
+    $this->ids_wrapper->setSite($dataset);
   }
 
   function ids_parameter($field) {

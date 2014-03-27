@@ -16,7 +16,7 @@ class idsviews_handler_filter_subjects extends views_handler_filter {
       $dataset = $this->view->query->request->site;
     }
     else {
-      $dataset = IDS_API_DEFAULT_DATASET;
+      $dataset = variable_get('idsapi_default_dataset', IDS_API_DEFAULT_DATASET);
     }
     $response = idsapi_get_all('subjects', $dataset, 'full');
     if (isset($response->results)) {
