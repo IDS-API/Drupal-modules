@@ -64,15 +64,6 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
     return $field;
   }
 
-  function add_relationship($left_table, $left_field, $right_table, $right_field) {
-      $this->add_field($left_table, $left_field);
-      $this->joins[$left_table][$left_field] = array(
-        'table' => $right_table,
-        'field' => $right_field,
-      );
-    return FALSE;
-  }
-
   public function add_orderby($table, $field = NULL, $order = "ASC", $alias = '', $params = array()){
     $this->orderby = array(
       'order' => $order,
