@@ -105,7 +105,7 @@ class IdsApiObject {
  * This class extends IdsApiObject and is inherited by IdsApiObjectAssetDocument and IdsApiObjectAssetOrganisation.
  *
  */
-abstract class IdsApiObjectAsset extends IdsApiObject {
+class IdsApiObjectAsset extends IdsApiObject {
 
   // Asset identifier (for example, 12345).
   public $asset_id;
