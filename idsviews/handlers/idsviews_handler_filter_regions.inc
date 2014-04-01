@@ -77,7 +77,22 @@ class idsviews_handler_filter_regions extends views_handler_filter {
     $filter = $this->options['field'];
     if (isset($this->value)) {
       if (!isset($this->value['all_regions'])) {
-        $value = implode('|', $this->value);
+        // If we allow multiple values then the value array will be multi-dimensional and we will need to flatten the
+        // array before we implode it
+        $values = array();
+        foreach ($this->value as $value){
+          if (is_array($value)){
+            // We do have a multidimensional array, so flatten it
+            foreach ($value as $subValue){
+              $values[] = $subValue;
+            }
+          }
+          else {
+            // The array isn't multidimensional so we'll just move the value across into our target array
+            $values[] = $value;
+          }
+        }
+        $value = implode('|', $values);
         if (isset($group, $filter, $value)) {
           if ($value) {
             $this->view->query->add_filter($group, $filter, $value);
