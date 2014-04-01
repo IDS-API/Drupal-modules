@@ -108,6 +108,9 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
     $this->pager->update_page_info();
   }
 
+  /**
+   * Modify the request object so that we are making the correct query based on the parameters and query terms.
+   */
   function set_url() {
     if (isset($this->where)) {
       foreach ($this->where as $group) {
