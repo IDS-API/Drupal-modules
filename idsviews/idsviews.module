@@ -700,6 +700,111 @@ function idsviews_views_data() {
     ),
   );
 
+  // Themes table
+  $data['idsviews_themes']['table']['group']  = t('IDS');
+  $data['idsviews_themes']['table']['base'] = array(
+    'field' => 'object_id',
+    'title' => t('IDS: IDS Themes'),
+    'help' => t('Query IDS Themes.'),
+    'query class' => 'idsviews_views_plugin_query',
+  );
+
+  // Fields
+
+  $data['idsviews_themes']['object_id'] = array(
+    'title' => t('Object ID'),
+    'help' => t('Unique identifier of this object.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
+  $data['idsviews_themes']['object_type'] = array(
+    'title' => t('Object type'),
+    'help' => t('Type of object.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
+  $data['idsviews_themes']['title'] = array(
+    'title' => t('Title'),
+    'help' => t('Readable identifier of this object.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
+  $data['idsviews_themes']['site'] = array(
+    'title' => t('Site'),
+    'help' => t('Dataset.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+    ),
+  );
+  $data['idsviews_themes']['metadata_url'] = array(
+    'title' => t('Metadata URL'),
+    'help' => t('Web-accessible uri for this object.'),
+    'field' => array(
+      'handler' => 'views_handler_field_url',
+    ),
+  );
+  $data['idsviews_themes']['level'] = array(
+    'title' => t("Level"),
+    'help' => t("Nesting level of the Theme"),
+    'field' => array(
+      "handler" => 'views_handler_field'
+    )
+  );
+
+  $data['idsviews_themes']['parent_object_id'] = array(
+    'title' => t("Parent"),
+    'help' => t("The Object ID of the parent of this theme"),
+    'field' => array(
+      'handler' => "views_handler_field"
+    )
+  );
+
+  $data['idsviews_themes']['category_id'] = array(
+    "title" => t("Category ID"),
+    'help' => t("Category ID of the theme"),
+    'field' => array(
+      'handler' => "views_handler_field"
+    )
+  );
+
+  $data['idsviews_themes']['cat_parent'] = array(
+    'title' => t("Parent Category"),
+    'help' => t("Category number of the theme's parent"),
+    'field' => array(
+      'handler' => "views_handler_field"
+    )
+  );
+
+  // Filters
+
+  $data['idsviews_themes']['object_id_filter'] = array(
+    'title' => t('Object ID'),
+    'help' => t('The object ID of the document.'),
+    'filter' => array(
+      'handler' => 'idsviews_handler_filter_text',
+    ),
+  );
+  $data['idsviews_themes']['level_filter'] = array(
+    'title' => t("Level"),
+    'help' => t("Limit view to only a specific level"),
+    'field' => array(
+      'handler' => "views_handler_filter_equality"
+    )
+  );
+
+  // Sort
+
+  $data['idsviews_themes']['sort_order'] = array(
+    'title' => t('Sort order'),
+    'help' => t('Note that you can only use one type of sort, and only once.'),
+    'sort' => array(
+      'handler' => 'idsviews_handler_sort',
+    ),
+  );
+
   return $data;
 }
 
