@@ -250,6 +250,13 @@ function idsviews_views_data() {
       'handler' => 'idsviews_handler_filter_text',
     ),
   );
+  $data['idsviews_documents']['sector_filter'] = array(
+    'title' => t("Sector"),
+    'help' => t("The category sector to use when retrieving documents (e.g. Bibliographies)"),
+    'filter' => array(
+      'handler' => "idsviews_handler_filter_sector"
+    )
+  );
   $data['idsviews_documents']['dataset_filter'] = array(
     'title' => t('Dataset'),
     'help' => t('Dataset from where to retrieve the documents (Eldis or Bridge).'),

@@ -15,6 +15,7 @@ files[] = handlers/idsviews_handler_field_metadata_languages.inc
 files[] = handlers/idsviews_handler_field_authors.inc
 files[] = handlers/idsviews_handler_field_categories.inc
 files[] = handlers/idsviews_handler_field_title.inc
+files[] = handlers/idsviews_handler_filter_sector.inc
 files[] = handlers/idsviews_handler_filter_text.inc
 files[] = handlers/idsviews_handler_filter_dataset.inc
 files[] = handlers/idsviews_handler_filter_regions.inc
