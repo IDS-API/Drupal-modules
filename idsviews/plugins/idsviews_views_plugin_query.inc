@@ -9,6 +9,10 @@
 class idsviews_views_plugin_query extends views_plugin_query_default {
   var $ids_wrapper;
   var $orderby;
+  /**
+   * @var bool If the data set (site) has been set then we will handle the request execution differently
+   */
+  protected $hasDataset = false;
 
   /**
    * Constructor; Create the basic query object and fill with default values.
@@ -18,8 +22,15 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
     $this->ids_wrapper = new IdsApiWrapper();
   }
 
+  /**
+   * Set the dataset that we should be using to make requests from the API (e.g. bridge or eldis).
+   *
+   * @param $dataset
+   */
   function add_dataset($dataset) {
     if (isset($dataset)) {
+      // A dataset has been set from an external source, so we update our object's state to reflect that.
+      $this->hasDataset = true;
       $this->ids_wrapper->setSite($dataset);
     }
   }
@@ -131,8 +142,11 @@ class idsviews_views_plugin_query extends views_plugin_query_default {
       $order = 'sort_' . strtolower($this->orderby['order']);
       $this->ids_wrapper->setParam($order, $this->orderby['orderby_field']);
     }
-    $dataset = variable_get('idsapi_default_dataset', IDS_API_DEFAULT_DATASET);
-    $this->ids_wrapper->setSite($dataset);
+    // Check whether we have set a dataset already, if not then we will set using the default/configured one
+    if (!$this->hasDataset){
+      $dataset = variable_get('idsapi_default_dataset', IDS_API_DEFAULT_DATASET);
+      $this->ids_wrapper->setSite($dataset);
+    }
   }
 
   function ids_parameter($field) {
