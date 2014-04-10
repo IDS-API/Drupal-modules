@@ -826,6 +826,9 @@ function idsviews_ids_api_key() {
     $view = views_get_view($view_name);
     $table = 'idsviews_' . $asset;
     if ($additional_fields) {
+      if (!function_exists("idsviews_display_subject_field")){
+        include_once drupal_get_path("module", "idsviews") . "/idsviews.views_default.inc";
+      }
       idsviews_display_subject_field($view->display['default'], $table);
       idsviews_display_subject_filter($view->display['default'], $table);
     }
