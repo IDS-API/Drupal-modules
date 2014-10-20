@@ -1103,6 +1103,72 @@ function idsimport_fields_definitions() {
         ),
       ),
     ),
+    'field_headline' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'max_length' => '1024',
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_headline' => array(
+                'value' => 'field_headline_value',
+                'format' => 'field_headline_format',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_headline' => array(
+                'value' => 'field_headline_value',
+                'format' => 'field_headline_format',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'table' => 'filter_format',
+          'columns' => array(
+            'format' => 'format',
+          ),
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'field_name' => 'field_headline',
+      'type' => 'text',
+      'module' => 'text',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'columns' => array(
+        'value' => array(
+          'type' => 'varchar',
+          'length' => '1024',
+          'not null' => FALSE,
+        ),
+        'format' => array(
+          'type' => 'varchar',
+          'length' => 1024,
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'node' => array(
+          0 => 'ids_document',
+        ),
+      ),
+    ),
     'field_tags' => array(
       'settings' => array(
         'allowed_values' => array(
@@ -5047,6 +5113,44 @@ function idsimport_fields_instances() {
         'description' => '',
         'default_value' => NULL,
         'field_name' => 'body',
+        'entity_type' => 'node',
+        'bundle' => 'ids_document',
+        'deleted' => '0',
+      ),
+    'field_headline' => array(
+        'label' => 'Headline',
+        'widget' => array(
+          'weight' => '3',
+          'type' => 'text_textfield',
+          'module' => 'text',
+          'active' => 1,
+          'settings' => array(
+            'size' => '60',
+          ),
+        ),
+        'settings' => array(
+          'text_processing' => '0',
+          'user_register_form' => FALSE,
+        ),
+        'display' => array(
+          'default' => array(
+            'label' => 'above',
+            'type' => 'text_default',
+            'weight' => '10',
+            'settings' => array(),
+            'module' => 'text',
+          ),
+          'teaser' => array(
+            'type' => 'hidden',
+            'label' => 'above',
+            'settings' => array(),
+            'weight' => 0,
+          ),
+        ),
+        'required' => 0,
+        'description' => '',
+        'default_value' => NULL,
+        'field_name' => 'field_headline',
         'entity_type' => 'node',
         'bundle' => 'ids_document',
         'deleted' => '0',

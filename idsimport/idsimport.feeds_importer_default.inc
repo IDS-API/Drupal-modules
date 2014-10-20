@@ -134,6 +134,11 @@ function idsimport_feeds_importer_default()
             'source' => 'keywords',
             'target' => 'field_tags',
             'unique' => FALSE
+          ),
+          20 => array(
+            'source' => 'headline',
+            'target' => 'field_headline',
+            'unique' => FALSE
           )
         ),
         'update_existing' => '2',

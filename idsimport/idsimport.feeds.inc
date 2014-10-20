@@ -307,6 +307,10 @@ class IdsDocumentsParser extends FeedsParser {
         'name' => t('External URLs'),
         'description' => t('External URLs of the full text document.'),
       ),
+      'headline' => array(
+        'name' => t('Headline'),
+        'description' => t('Headline or short description of title of the document.'),
+      ),
     );
   }
 

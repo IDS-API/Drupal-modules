@@ -26,7 +26,9 @@ $plugin = array(
     "show_publication_date" => TRUE,
     "publication_date_label" => t("Publication Date").": ",
     'show_description' => TRUE,
-    "description_label" => ""
+    "description_label" => "",
+    'show_headline' => TRUE,
+    "headline_label" => ""
   )
 );
 
@@ -111,6 +113,17 @@ function idscontent_content_type_edit_form($form, &$form_state){
     '#title' => t("Description label"),
     '#description' => t("If left blank then no label will be shown, otherwise the text provided will be shown")
   );
+  $form['show_headline'] = array(
+    '#type' => "checkbox",
+    '#default_value' => isset($form_state['conf']['show_headline']) ? $form_state['conf']['show_headline'] : 1,
+    '#title' => t("Show headline")
+  );
+  $form['headline_label'] = array(
+    '#type' => "textfield",
+    '#default_value' => isset($form_state['conf']['headline_label']) ? $form_state['conf']['headline_label'] : $form_state['plugin']['defaults']['headline_label'],
+    '#title' => t("Headline label"),
+    '#description' => t("If left blank then no label will be shown, otherwise the text provided will be shown")
+  );
   return $form;
 }
 
@@ -183,7 +196,11 @@ function idscontent_content_type_render($subtype, $conf, $panel_args, $context =
     "description" => array(
       "value" => $description,
       'label' => isset($conf['description_label']) ? $conf['description_label'] : "",
-      "show" => isset($conf['show_description']) ? $conf['show_description'] : 1)
+      "show" => isset($conf['show_description']) ? $conf['show_description'] : 1).
+    "headline" => array(
+      "value" => $headline,
+      'label' => isset($conf['headline_label']) ? $conf['headline_label'] : "",
+      "show" => isset($conf['show_headline']) ? $conf['show_headline'] : 1)
   );
   $block->title = $conf['override_title'] ? $conf['override_title_text'] : $title;
   $block->content = theme("idscontent_document", array("fields" => $fields, "document" => $data, "conf" => $conf));
