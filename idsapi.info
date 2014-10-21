@@ -3,7 +3,7 @@ name = IDS API
 description = Provides access to the IDS collection via the IDS Knowledge Services API.
 package = IDS
 core = 7.x
-version = 7.x-1.0-beta2
+version = 7.x-1.0-beta3
 
 configure = admin/config/services/idsapi
 
