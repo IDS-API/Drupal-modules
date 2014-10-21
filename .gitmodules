@@ -1,0 +1,3 @@
+[submodule "php-wrapper"]
+	path = php-wrapper
+	url = git://github.com/ids-api/php-wrapper.git
