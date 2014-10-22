@@ -180,8 +180,8 @@ function idsimport_patch_feeds() {
   $feeds_source_file = $feeds_includes_path . '/FeedsSource.inc';
   $feeds_import_file = $feeds_includes_path . '/FeedsImporter.inc';    
 
-  $resp = TRUE;
-  if (($file_module = file_get_contents($feeds_module_file)) && ($file_config = file_get_contents($feeds_config_file)) && ($file_source = file_get_contents($feeds_source_file)) && ($file_import = file_get_contents($feeds_import_file))) {
+  $resp = (is_writable($feeds_config_file) && is_writable($feeds_source_file) && is_writable($feeds_import_file));  
+  if ($resp && ($file_module = file_get_contents($feeds_module_file)) && ($file_config = file_get_contents($feeds_config_file)) && ($file_source = file_get_contents($feeds_source_file)) && ($file_import = file_get_contents($feeds_import_file))) {
 
     // feeds.module
     $orig_code = '    $source->existing()->import();';
@@ -224,11 +224,12 @@ function idsimport_patch_feeds() {
     $resp = file_put_contents($feeds_import_file, $new_file_import);
   }
   else {
+    watchdog('idsimport', "Feeds module files are not accessible or cannot be written.", array('idsimport_install'), WATCHDOG_ALERT);
     $resp = FALSE;
   }
   
   if (!$resp) {
-      watchdog('idsimport', "The Feeds module could not be patched. The IDS Import module might report some errors.", array('idsimport_install'), WATCHDOG_ALERT);
+      watchdog('idsimport', "The Feeds module could not be fully patched. The IDS Import module might report some errors.", array('idsimport_install'), WATCHDOG_ALERT);
   }
   else {
       drupal_set_message('The Feeds module was succesfully patched.');

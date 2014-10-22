@@ -116,26 +116,31 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           16 => array(
-            'source' => 'publisher_array',
-            'target' => 'field_publishers_ids',
+            'source' => 'publisher',
+            'target' => 'field_publisher',
             'unique' => FALSE
           ),
           17 => array(
+            'source' => 'publisher_id',
+            'target' => 'field_publisher_id',
+            'unique' => FALSE
+          ),
+          18 => array(
             'source' => 'licence_type',
             'target' => 'field_licence_type',
             'unique' => FALSE
           ),
-          18 => array(
+          19 => array(
             'source' => 'urls',
             'target' => 'field_external_urls',
             'unique' => FALSE
           ),
-          19 => array(
+          20 => array(
             'source' => 'keywords',
             'target' => 'field_tags',
             'unique' => FALSE
           ),
-          20 => array(
+          21 => array(
             'source' => 'headline',
             'target' => 'field_headline',
             'unique' => FALSE

@@ -391,8 +391,7 @@ function idsimport_fields_definitions() {
       'translatable' => '0',
       'entity_types' => array(),
       'settings' => array(
-        'allowed_values' => array(),
-        'allowed_values_function' => '',
+        'max_length' => '1500',
       ),
       'storage' => array(
         'type' => 'field_sql_storage',
@@ -404,25 +403,34 @@ function idsimport_fields_definitions() {
             'FIELD_LOAD_CURRENT' => array(
               'field_data_field_external_urls' => array(
                 'value' => 'field_external_urls_value',
+                'format' => 'field_external_urls_format',
               ),
             ),
             'FIELD_LOAD_REVISION' => array(
               'field_revision_field_external_urls' => array(
                 'value' => 'field_external_urls_value',
+                'format' => 'field_external_urls_format',
               ),
             ),
           ),
         ),
       ),
-      'foreign keys' => array(),
+      'foreign keys' => array(
+        'format' => array(
+          'table' => 'filter_format',
+          'columns' => array(
+            'format' => 'format',
+          ),
+        ),
+      ),
       'indexes' => array(
-        'value' => array(
-          0 => 'value',
+        'format' => array(
+          0 => 'format',
         ),
       ),
       'field_name' => 'field_external_urls',
-      'type' => 'list_text',
-      'module' => 'list',
+      'type' => 'text',
+      'module' => 'text',
       'active' => '1',
       'locked' => '0',
       'cardinality' => '-1',
@@ -430,7 +438,12 @@ function idsimport_fields_definitions() {
       'columns' => array(
         'value' => array(
           'type' => 'varchar',
-          'length' => 500,
+          'length' => '1500',
+          'not null' => FALSE,
+        ),
+        'format' => array(
+          'type' => 'varchar',
+          'length' => 255,
           'not null' => FALSE,
         ),
       ),
@@ -916,12 +929,11 @@ function idsimport_fields_definitions() {
         ),
       ),
     ),
-    'field_publishers_ids' => array(
+    'field_publisher' => array(
       'translatable' => '0',
       'entity_types' => array(),
       'settings' => array(
-        'allowed_values' => array(),
-        'allowed_values_function' => '',
+        'max_length' => '500',
       ),
       'storage' => array(
         'type' => 'field_sql_storage',
@@ -931,34 +943,115 @@ function idsimport_fields_definitions() {
         'details' => array(
           'sql' => array(
             'FIELD_LOAD_CURRENT' => array(
-              'field_data_field_publishers_ids' => array(
-                'value' => 'field_publishers_ids_value',
+              'field_data_field_publisher' => array(
+                'value' => 'field_publisher_value',
+                'format' => 'field_publisher_format',
               ),
             ),
             'FIELD_LOAD_REVISION' => array(
-              'field_revision_field_publishers_ids' => array(
-                'value' => 'field_publishers_ids_value',
+              'field_revision_field_publisher' => array(
+                'value' => 'field_publisher_value',
+                'format' => 'field_publisher_format',
               ),
             ),
           ),
         ),
       ),
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
+      'foreign keys' => array(
+        'format' => array(
+          'table' => 'filter_format',
+          'columns' => array(
+            'format' => 'format',
+          ),
         ),
       ),
-      'field_name' => 'field_publishers_ids',
-      'type' => 'list_integer',
-      'module' => 'list',
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'field_name' => 'field_publisher',
+      'type' => 'text',
+      'module' => 'text',
       'active' => '1',
       'locked' => '0',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'columns' => array(
         'value' => array(
-          'type' => 'int',
+          'type' => 'varchar',
+          'length' => '500',
+          'not null' => FALSE,
+        ),
+        'format' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'node' => array(
+          0 => 'ids_document',
+        ),
+      ),
+    ),
+    'field_publisher_id' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_publisher_id' => array(
+                'value' => 'field_publisher_id_value',
+                'format' => 'field_publisher_id_format',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_publisher_id' => array(
+                'value' => 'field_publisher_id_value',
+                'format' => 'field_publisher_id_format',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'table' => 'filter_format',
+          'columns' => array(
+            'format' => 'format',
+          ),
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'field_name' => 'field_publisher_id',
+      'type' => 'text',
+      'module' => 'text',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'columns' => array(
+        'value' => array(
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => FALSE,
+        ),
+        'format' => array(
+          'type' => 'varchar',
+          'length' => 255,
           'not null' => FALSE,
         ),
       ),
@@ -5372,40 +5465,43 @@ function idsimport_fields_instances() {
         'deleted' => '0',
       ),
     'field_external_urls' => array(
-        'label' => 'External URLs',
-        'widget' => array(
-          'weight' => '21',
-          'type' => 'options_select',
-          'module' => 'options',
-          'active' => 1,
-          'settings' => array(),
-        ),
+      'label' => 'External URLs',
+      'widget' => array(
+        'weight' => '24',
+        'type' => 'text_textfield',
+        'module' => 'text',
+        'active' => 1,
         'settings' => array(
-          'user_register_form' => FALSE,
+          'size' => '60',
         ),
-        'display' => array(
-          'default' => array(
-            'label' => 'above',
-            'type' => 'list_default',
-            'weight' => '20',
-            'settings' => array(),
-            'module' => 'list',
-          ),
-          'teaser' => array(
-            'type' => 'hidden',
-            'label' => 'above',
-            'settings' => array(),
-            'weight' => 0,
-          ),
-        ),
-        'required' => 0,
-        'description' => '',
-        'default_value' => NULL,
-        'field_name' => 'field_external_urls',
-        'entity_type' => 'node',
-        'bundle' => 'ids_document',
-        'deleted' => '0',
       ),
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'type' => 'text_default',
+          'settings' => array(),
+          'module' => 'text',
+          'weight' => 22,
+        ),
+        'teaser' => array(
+          'type' => 'hidden',
+          'label' => 'above',
+          'settings' => array(),
+          'weight' => 0,
+        ),
+      ),
+      'required' => 0,
+      'description' => '',
+      'default_value' => NULL,
+      'field_name' => 'field_external_urls',
+      'entity_type' => 'node',
+      'bundle' => 'ids_document',
+      'deleted' => '0',
+    ),
     'field_language' => array(
         'label' => 'Language',
         'widget' => array(
@@ -5685,41 +5781,82 @@ function idsimport_fields_instances() {
         'bundle' => 'ids_document',
         'deleted' => '0',
       ),
-    'field_publishers_ids' => array(
-        'label' => 'Publishers IDs',
-        'widget' => array(
-          'weight' => '20',
-          'type' => 'options_select',
-          'module' => 'options',
-          'active' => 1,
-          'settings' => array(),
-        ),
+    'field_publisher' => array(
+      'label' => 'Publisher',
+      'widget' => array(
+        'weight' => '25',
+        'type' => 'text_textfield',
+        'module' => 'text',
+        'active' => 1,
         'settings' => array(
-          'user_register_form' => FALSE,
+          'size' => '60',
         ),
-        'display' => array(
-          'default' => array(
-            'label' => 'above',
-            'type' => 'list_default',
-            'weight' => '19',
-            'settings' => array(),
-            'module' => 'list',
-          ),
-          'teaser' => array(
-            'type' => 'hidden',
-            'label' => 'above',
-            'settings' => array(),
-            'weight' => 0,
-          ),
-        ),
-        'required' => 0,
-        'description' => '',
-        'default_value' => NULL,
-        'field_name' => 'field_publishers_ids',
-        'entity_type' => 'node',
-        'bundle' => 'ids_document',
-        'deleted' => '0',
       ),
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'type' => 'text_default',
+          'settings' => array(),
+          'module' => 'text',
+          'weight' => 23,
+        ),
+        'teaser' => array(
+          'type' => 'hidden',
+          'label' => 'above',
+          'settings' => array(),
+          'weight' => 0,
+        ),
+      ),
+      'required' => 0,
+      'description' => '',
+      'default_value' => NULL,
+      'field_name' => 'field_publisher',
+      'entity_type' => 'node',
+      'bundle' => 'ids_document',
+      'deleted' => '0',
+      ),
+    'field_publisher_id' => array(
+      'label' => 'Publisher ID',
+      'widget' => array(
+        'weight' => '26',
+        'type' => 'text_textfield',
+        'module' => 'text',
+        'active' => 1,
+        'settings' => array(
+          'size' => '60',
+        ),
+      ),
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'type' => 'text_default',
+          'settings' => array(),
+          'module' => 'text',
+          'weight' => 24,
+        ),
+        'teaser' => array(
+          'type' => 'hidden',
+          'label' => 'above',
+          'settings' => array(),
+          'weight' => 0,
+        ),
+      ),
+      'required' => 0,
+      'description' => '',
+      'default_value' => NULL,
+      'field_name' => 'field_publisher_id',
+      'entity_type' => 'node',
+      'bundle' => 'ids_document',
+      'deleted' => '0',
+    ),
     'field_regions' => array(
         'label' => 'Regions',
         'widget' => array(

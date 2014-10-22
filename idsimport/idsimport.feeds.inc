@@ -295,9 +295,13 @@ class IdsDocumentsParser extends FeedsParser {
         'name' => t('Publication date'),
         'description' => t('Year when the research document was first published.'),
       ),
-      'publisher_array' => array(
-        'name' => t('Publishers'),
-        'description' => t('Organisations that published the research.'),
+      'publisher' => array(
+        'name' => t('Publisher'),
+        'description' => t('Name of the organisation that published the research.'),
+      ),
+      'publisher_id' => array(
+        'name' => t('Publisher ID'),
+        'description' => t('Object ID of the organisation that published the research.'),
       ),
       'licence_type' => array(
         'name' => t('Licence type'),
@@ -344,7 +348,9 @@ class IdsDocumentsParser extends FeedsParser {
           'authors' => $asset->authors,
           'language_name' => $asset->language_name,
           'publication_date' => $asset->publication_date,
-          'publisher_array' => $asset->publisher_array,
+          'publisher' => $asset->publisher,
+          'publisher_id' => $asset->publisher_id,
+          //'publisher_array' => $asset->publisher_array,
           'licence_type' => $asset->licence_type,
           'urls' => $asset->urls,
         );
