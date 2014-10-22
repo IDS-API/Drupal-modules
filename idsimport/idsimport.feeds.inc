@@ -307,6 +307,10 @@ class IdsDocumentsParser extends FeedsParser {
         'name' => t('Licence type'),
         'description' => t('Licence type.'),
       ),
+      'document_type' => array(
+        'name' => t('Document type'),
+        'description' => t('Document type.'),
+      ),
       'urls' => array(
         'name' => t('External URLs'),
         'description' => t('External URLs of the full text document.'),
@@ -350,9 +354,9 @@ class IdsDocumentsParser extends FeedsParser {
           'publication_date' => $asset->publication_date,
           'publisher' => $asset->publisher,
           'publisher_id' => $asset->publisher_id,
-          //'publisher_array' => $asset->publisher_array,
           'licence_type' => $asset->licence_type,
-          'urls' => $asset->urls,
+		  'document_type' => $asset->document_type,
+		  'urls' => $asset->urls,
         );
         $result->items[] = $item;
       }

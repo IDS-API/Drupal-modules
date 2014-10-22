@@ -433,7 +433,7 @@ function idsimport_fields_definitions() {
       'module' => 'text',
       'active' => '1',
       'locked' => '0',
-      'cardinality' => '-1',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
       'deleted' => '0',
       'columns' => array(
         'value' => array(
@@ -443,7 +443,7 @@ function idsimport_fields_definitions() {
         ),
         'format' => array(
           'type' => 'varchar',
-          'length' => 255,
+          'length' => 1500,
           'not null' => FALSE,
         ),
       ),
@@ -566,6 +566,72 @@ function idsimport_fields_definitions() {
       'active' => '1',
       'locked' => '0',
       'cardinality' => '1',
+      'deleted' => '0',
+      'columns' => array(
+        'value' => array(
+          'type' => 'varchar',
+          'length' => '500',
+          'not null' => FALSE,
+        ),
+        'format' => array(
+          'type' => 'varchar',
+          'length' => 500,
+          'not null' => FALSE,
+        ),
+      ),
+      'bundles' => array(
+        'node' => array(
+          0 => 'ids_document',
+        ),
+      ),
+    ),
+  'field_document_type' => array(
+      'translatable' => '0',
+      'entity_types' => array(),
+      'settings' => array(
+        'max_length' => '500',
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+        'module' => 'field_sql_storage',
+        'active' => '1',
+        'details' => array(
+          'sql' => array(
+            'FIELD_LOAD_CURRENT' => array(
+              'field_data_field_document_type' => array(
+                'value' => 'field_document_type_value',
+                'format' => 'field_document_type_format',
+              ),
+            ),
+            'FIELD_LOAD_REVISION' => array(
+              'field_revision_field_document_type' => array(
+                'value' => 'field_document_type_value',
+                'format' => 'field_document_type_format',
+              ),
+            ),
+          ),
+        ),
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'table' => 'filter_format',
+          'columns' => array(
+            'format' => 'format',
+          ),
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'field_name' => 'field_document_type',
+      'type' => 'text',
+      'module' => 'text',
+      'active' => '1',
+      'locked' => '0',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
       'deleted' => '0',
       'columns' => array(
         'value' => array(
@@ -933,7 +999,7 @@ function idsimport_fields_definitions() {
       'translatable' => '0',
       'entity_types' => array(),
       'settings' => array(
-        'max_length' => '500',
+        'max_length' => '1500',
       ),
       'storage' => array(
         'type' => 'field_sql_storage',
