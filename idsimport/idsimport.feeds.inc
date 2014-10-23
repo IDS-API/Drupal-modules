@@ -37,8 +37,7 @@ class IdsAssetsFetcher extends FeedsFetcher {
     $this->ids_api_wrapper->setNumRequested(variable_get('idsimport_number_assets', IDS_IMPORT_NUM_ASSETS));
     $this->ids_api_wrapper->setAgeResults(variable_get('idsimport_age_new_assets', IDS_IMPORT_AGE_NEW_ASSETS));
     $this->ids_api_wrapper->setFormat('full');
-    $query_string = variable_get('idsimport_query_string');
-    if ($query_string) {
+    if ($query_string = variable_get('idsimport_query_string')) {
       $this->ids_api_wrapper->setQueryString($query_string);
     }
   }
@@ -97,8 +96,7 @@ class IdsCategoriesFetcher extends FeedsFetcher {
     $this->ids_api_wrapper->setApiKey(variable_get('idsapi_api_key', ''));
     $this->ids_api_wrapper->setSite(variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET));
     $this->ids_api_wrapper->setFormat('full');
-    $query_string = variable_get('idsimport_query_string');
-    if ($query_string) {
+    if ($query_string = variable_get('idsimport_query_string')) {
       $this->ids_api_wrapper->setQueryString($query_string);
     }
   }
@@ -110,8 +108,7 @@ class IdsCategoriesFetcher extends FeedsFetcher {
   public function fetch(FeedsSource $source) {
     $this->ids_api_wrapper->setObjectType($this->config['category_type']);
     if (($this->config['category_type'] == 'themes') || ($this->config['category_type'] == 'subjects') || ($this->config['category_type'] == 'regions')) {
-      $levels = variable_get('idsimport_levels_categories');
-      if ($levels) {
+      if ($levels = variable_get('idsimport_levels_categories')) {
         $this->ids_api_wrapper->setParam('level', $levels);
       }
     }
@@ -355,8 +352,8 @@ class IdsDocumentsParser extends FeedsParser {
           'publisher' => $asset->publisher,
           'publisher_id' => $asset->publisher_id,
           'licence_type' => $asset->licence_type,
-		  'document_type' => $asset->document_type,
-		  'urls' => $asset->urls,
+          'document_type' => $asset->document_type,
+          'urls' => $asset->urls,
         );
         $result->items[] = $item;
       }
