@@ -43,7 +43,7 @@ are imported as Drupal taxonomy terms.
 * Instructions *
 
 - Assets (documents and organisations) and categories (regions, themes and countries) can be set to be imported periodically
-  and can also be imported manually, from the module's configuration page (admin/config/services/idsapi_import).
+  and can also be imported manually, from the module's configuration page (admin/config/services/idsimport).
 - When the module is installed and enabled content types and vocabularies are created for IDS assets and categories.
   They are available at '/admin/structure/types' and '/admin/structure/taxonomy', respectively.
 - By default a new Drupal user is also created, which is used as author of the imported content.
