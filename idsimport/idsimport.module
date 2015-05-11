@@ -69,6 +69,18 @@ function idsimport_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function idsimport_permission() {
+  return array(
+    'administer idsimport' => array(
+      'title' => t('Administer the IDS Import module'), 
+      'description' => t('Perform administration tasks for the IDS Import module.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_node_info().
  */
 function idsimport_node_info() {
@@ -218,7 +230,7 @@ function idsimport_menu_alter(&$items) {
 }
 
 /**
- * Tasks to perform when the API key is changed. Depending on the partner´s level, special importers are enabled/disabled.
+ * Tasks to perform when the API key is changed. Depending on the partnerï¿½s level, special importers are enabled/disabled.
  */
 function idsimport_ids_api_key() {
   $additional_fields = variable_get('idsapi_additional_fields', FALSE);
@@ -238,7 +250,7 @@ function idsimport_ids_api_key() {
 }
 
 /**
- * Hide vocabularies corresponding to categories available only with partner´s API keys.
+ * Hide vocabularies corresponding to categories available only with partnerï¿½s API keys.
  */
 function idsimport_form_taxonomy_overview_vocabularies_alter(&$form, &$form_state, $form_id) {
   $hide_vocabularies = array(IDS_IMPORT_SUBJECTS_VOCABULARY);
@@ -258,7 +270,7 @@ function idsimport_form_taxonomy_overview_vocabularies_alter(&$form, &$form_stat
 }
 
 /**
- * Hide importers corresponding to categories available only with partner´s API keys.
+ * Hide importers corresponding to categories available only with partnerï¿½s API keys.
  */
 function idsimport_form_feeds_ui_overview_form_alter(&$form, &$form_state, $form_id) {
   $hide_importers = array(IDS_IMPORT_IMPORTER_SUBJECTS);
@@ -278,7 +290,7 @@ function idsimport_form_feeds_ui_overview_form_alter(&$form, &$form_state, $form
 }
 
 /**
- * Hide node fields corresponding to categories available only with partner´s API keys.
+ * Hide node fields corresponding to categories available only with partnerï¿½s API keys.
  */
 function idsimport_form_node_form_alter(&$form, &$form_state, $form_id) {
   $hide_field_categories = array('field_subjects');
