@@ -103,7 +103,8 @@ function idsimport_feeds_importer_default()
           13 => array(
             'source' => 'authors',
             'target' => 'field_authors',
-            'unique' => FALSE
+	        'term_search' => '0',
+	        'autocreate' => 1
           ),
           14 => array(
             'source' => 'language_name',
@@ -138,7 +139,8 @@ function idsimport_feeds_importer_default()
           20 => array(
             'source' => 'keywords',
             'target' => 'field_tags',
-            'unique' => FALSE
+	        'term_search' => '0',
+	        'autocreate' => 1
           ),
           21 => array(
             'source' => 'headline',
@@ -152,7 +154,10 @@ function idsimport_feeds_importer_default()
           )
         ),
         'update_existing' => '2',
-        'input_format' => 'full_html'
+        'input_format' => 'full_html',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_document'
       )
     ),
     'content_type' => IDS_IMPORT_DOCUMENTS_FEED_TYPE,
@@ -255,7 +260,8 @@ function idsimport_feeds_importer_default()
           13 => array(
             'source' => 'keywords',
             'target' => 'field_tags',
-            'unique' => FALSE
+	        'term_search' => '0',
+	        'autocreate' => 1
           ),
           14 => array(
             'source' => '$acronym',
@@ -289,7 +295,10 @@ function idsimport_feeds_importer_default()
           )
         ),
         'update_existing' => '2',
-        'input_format' => 'full_html'
+        'input_format' => 'full_html',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_organisation'
       )
     ),
     'content_type' => IDS_IMPORT_ORGANISATIONS_FEED_TYPE,
@@ -389,7 +398,10 @@ function idsimport_feeds_importer_default()
           )
         ),
         'update_existing' => '2',
-        'input_format' => 'plain_text'
+        'input_format' => 'plain_text',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_regions'
       )
     ),
     'content_type' => IDS_IMPORT_REGIONS_FEED_TYPE,
@@ -489,7 +501,10 @@ function idsimport_feeds_importer_default()
           )
         ),
         'update_existing' => '2',
-        'input_format' => 'plain_text'
+        'input_format' => 'plain_text',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_themes'
       )
     ),
     'content_type' => IDS_IMPORT_THEMES_FEED_TYPE,
@@ -590,7 +605,10 @@ function idsimport_feeds_importer_default()
           )
         ),
         'update_existing' => '2',
-        'input_format' => 'plain_text'
+        'input_format' => 'plain_text',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_subjects'
       )
     ),
     'content_type' => IDS_IMPORT_SUBJECTS_FEED_TYPE,
@@ -692,6 +710,9 @@ function idsimport_feeds_importer_default()
         ),
         'update_existing' => '2',
         'input_format' => 'plain_text',
+        'authorize' => 1,
+        'skip_hash_check' => 0,
+        'bundle' => 'ids_countries'
       ),
     ),
     'content_type' => IDS_IMPORT_COUNTRIES_FEED_TYPE,
