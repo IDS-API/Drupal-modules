@@ -39,6 +39,8 @@ are imported as Drupal taxonomy terms.
   configured (with a valid API key).
   This module requires Drupal 7 versions of the Feeds (http://drupal.org/project/feeds) and Date (http://drupal.org/project/date) modules.
 - Several of the modules' options can be set up and are explained in the module's configuration page (/admin/config/services/idsapi_feeds).
+- WARNING At the moment the Import Module requires Feeds version 7.x-2.0-alpha9 (https://www.drupal.org/node/2507273) 
+  The Beta verson of Feeds included a major rewrite of the FeedsImporter class removing the shedule method that the Import Module calls. 
 
 * Instructions *
 
