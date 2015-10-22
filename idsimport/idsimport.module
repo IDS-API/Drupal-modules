@@ -592,7 +592,17 @@ function idsimport_set_categories($object_ids, $categories) {
             $entity_id = $assets[$object_id]->entity_id;
             $entity_type = $assets[$object_id]->entity_type;
             $entity = $entities[$entity_type][$entity_id];
-            $entity->{$field}['und'][]= $new_tid;
+            $tid_attached_already = FALSE;
+            if(isset($entity->{$field}['und'])){
+	            foreach($entity->{$field}['und'] as $tid_obj){
+	            	if($tid_obj['tid'] == $tid){
+	            		$tid_attached_already = TRUE;
+	            	}
+	            }
+            }
+            if(!$tid_attached_already){
+            	$entity->{$field}['und'][]= $new_tid;
+            }
             idsimport_entity_save($entity_type, $entity);
           }
         }
