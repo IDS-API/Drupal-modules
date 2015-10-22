@@ -49,7 +49,16 @@ function idsimport_settings_form() {
     '#suffix' => '</div>',
   );
 
-  $form['general']['assets']['idsimport_number_assets'] = array(
+  
+  $form['general']['assets']['periodic'] = array (
+    '#type' => 'fieldset',
+    '#title' => t('Periodic import'),
+    '#description' => t(''),
+    '#prefix' => '<div class="idsimport-form-general">',
+    '#suffix' => '</div>',
+  );
+  
+  $form['general']['assets']['periodic']['idsimport_number_assets'] = array(
     '#title' => t('Number of documents and/or organisations to import'),
     '#type' => 'textfield',
     '#size' => 10,
@@ -57,6 +66,42 @@ function idsimport_settings_form() {
     '#required' => FALSE,
     '#default_value' => variable_get('idsimport_number_assets', IDS_IMPORT_NUM_ASSETS),
     '#description' => t('Number of documents and/or organisations to retrieve in each call to the IDS API. Leave blank if you do not want to limit it, and import all available items.'),
+  );
+  
+  $form['general']['assets']['limits'] = array (
+    '#type' => 'fieldset',
+    '#title' => t('Import limits'),
+    '#description' => t(''),
+    '#prefix' => '<div class="idsimport-form-general">',
+    '#suffix' => '</div>',
+  );  
+  
+  $form['general']['assets']['limits']['idsimport_get_assets_older_content'] = array(
+    '#title' => t('Import older content items'),
+    '#type' => 'select',
+    '#options' => array(
+      '' => t('None'),
+      'all' => t('All'),
+      'specified_number' => t('Specified number'),
+    ),
+    '#default_value' => variable_get('idsimport_get_assets_older_content', ''),
+    '#required' => FALSE,
+    '#description' => t('When set, All content will be imported/or specified number of older content items.'),
+  );
+
+  $form['general']['assets']['limits']['idsimport_number_assets_older_content'] = array(
+    '#title' => t('Maximum number of older content items to import'),
+    '#type' => 'textfield',
+    '#size' => 10,
+    '#maxlength' => 10,
+    '#required' => FALSE,
+    '#default_value' => variable_get('idsimport_number_assets_older_content', IDS_IMPORT_NUM_ASSETS),
+    '#description' => t('When set, all content will be imported until this limit is reached.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="idsimport_get_assets_older_content"]' => array('value' => 'specified_number'),
+      ),
+    ),
   );
   
   $form['general']['assets']['idsimport_age_new_assets'] = array(
