@@ -27,6 +27,10 @@ class IdsAssetsFetcher extends FeedsFetcher {
   // Object of type IdsApiWrapper that performs the API request.
   public $ids_api_wrapper;
 
+  
+  public function setOffset($start_offset){
+  	$this->ids_api_wrapper->setOffset($start_offset);
+  }
   /**
    * Overrides parent::__construct().
    */
