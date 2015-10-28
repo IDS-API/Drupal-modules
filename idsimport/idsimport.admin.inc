@@ -80,11 +80,11 @@ function idsimport_settings_form() {
     '#title' => t('Import older content items'),
     '#type' => 'select',
     '#options' => array(
-      '' => t('None'),
-      'all' => t('All'),
+      IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE => t('None'),
+      IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_ALL => t('All'),
       'specified_number' => t('Specified number'),
     ),
-    '#default_value' => variable_get('idsimport_get_assets_older_content', ''),
+    '#default_value' => variable_get('idsimport_get_assets_older_content', IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE),
     '#required' => FALSE,
     '#description' => t('When set, All content will be imported/or specified number of older content items.'),
   );
@@ -95,7 +95,7 @@ function idsimport_settings_form() {
     '#size' => 10,
     '#maxlength' => 10,
     '#required' => FALSE,
-    '#default_value' => variable_get('idsimport_number_assets_older_content', IDS_IMPORT_NUM_ASSETS),
+    '#default_value' => variable_get('idsimport_number_assets_older_content', IDS_IMPORT_NUM_ASSETS_OLDER_CONTENT),
     '#description' => t('When set, all content will be imported until this limit is reached.'),
     '#states' => array(
       'visible' => array(

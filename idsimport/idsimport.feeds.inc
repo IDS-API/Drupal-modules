@@ -22,7 +22,7 @@ class IdsContentFetcherResult extends FeedsFetcherResult {
 /*
  * IdsAssetsFetcher Class
  */
-class IdsAssetsFetcher extends FeedsFetcher {
+class IdsAssetsFetcher extends FeedsHTTPFetcher {
 
   // Object of type IdsApiWrapper that performs the API request.
   public $ids_api_wrapper;
@@ -51,8 +51,43 @@ class IdsAssetsFetcher extends FeedsFetcher {
    */
   public function fetch(FeedsSource $source) {
     $this->ids_api_wrapper->setObjectType($this->config['asset_type']);
-    $fetcher_result = new IdsContentFetcherResult($this);
-    return $fetcher_result;
+
+  	if((variable_get('idsimport_get_assets_older_content', IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE) != IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE)){
+	  	$batch_amount = variable_get('idsimport_number_assets', IDS_IMPORT_NUM_ASSETS);
+    	$source_config = $source->getConfigFor($this);
+    	//$config = $source_config['crawler'];
+    	
+	    $state = $source->state(FEEDS_FETCH);
+	    if ($state->total == 0) {
+	      $state->total = (variable_get('idsimport_get_assets_older_content', IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE) == IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_ALL) ? 100000 : variable_get('idsimport_number_assets_older_content', IDS_IMPORT_NUM_ASSETS_OLDER_CONTENT);
+	      $state->count = $state->total;
+	    }
+	    $this->ids_api_wrapper->setOffset($state->count);
+		
+	    $fetcher_result = new IdsContentFetcherResult($this);
+	
+	  /*  if ($config['first_run'] && $source->config['FeedsCrawler']['crawled']) {
+	      $state->progress($state->total, $state->total);
+	      return $fetcher_result;
+	    }*/
+	    //sleep(2000);
+	    if ($state->count > 0) {
+	      $state->next_url = $href;
+	      $state->count -= $batch_amount;
+	      $state->progress($state->total, $state->total - $state->count);
+	      if ($state->count <= 0) {
+	        $source->config['FeedsCrawler']['crawled'] = TRUE;
+	      }
+	    }
+	    else {
+	      $state->progress($state->total, $state->total);
+	    }
+	    return $fetcher_result;
+    } else {
+	  	$fetcher_result = new IdsContentFetcherResult($this);
+	    return $fetcher_result;
+    }
+
   }
   
   /**
