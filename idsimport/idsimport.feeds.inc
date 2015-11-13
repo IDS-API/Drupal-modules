@@ -68,10 +68,8 @@ class IdsAssetsFetcher extends FeedsHTTPFetcher {
 	
 	    if ($state->count > 0) {
 	      $state->count -= $batch_amount;
-	      $state->progress($state->total, $state->total - $state->count);
-	      if ($state->count <= 0) {
-	        $source->config['FeedsCrawler']['crawled'] = TRUE;
-	      }
+	      $statecount = ($state->count < 0) ? 0:$state->count;
+	      $state->progress($state->total, $state->total - $statecount);
 	    }
 	    else {
 	      $state->progress($state->total, $state->total);
