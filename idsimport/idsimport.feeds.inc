@@ -61,7 +61,7 @@ class IdsAssetsFetcher extends FeedsHTTPFetcher {
 	      $state->total = (variable_get('idsimport_get_assets_older_content', IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_NONE) == IDS_IMPORT_GET_ASSETS_OLDER_CONTENT_ALL) ? $this->getTotalResults() : variable_get('idsimport_number_assets_older_content', IDS_IMPORT_NUM_ASSETS_OLDER_CONTENT);
 	      $state->count = $state->total;
 	    }
-	    drupal_set_message('count=' . $state->count);
+
 	    $this->ids_api_wrapper->setOffset($state->count);
 		
 	    $fetcher_result = new IdsContentFetcherResult($this);
