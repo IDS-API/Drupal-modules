@@ -482,7 +482,21 @@ function idsimport_delete_items_type($types) {
   foreach ($types as $type) {
     if (array_key_exists($type, $content_types)) {
         $nids = idsimport_get_nids_type($type);
-        node_delete_multiple($nids);
+        //node_delete_multiple($nids);
+        /* turn into batch opperation as node_delete_multiple() can't handle large numbers 1000+ */
+        variable_set('idsimport_delete_items_batch_process_count', 0);
+		$batch = array(
+		    'title' => t('Deleting IDS nodes'),
+		    'operations' => array(),
+		    'init_message' => t('Commencing'),
+		    'progress_message' => t('Processed @current out of @total.'),
+		    'error_message' => t('An error occurred during processing'),
+		    'finished' => 'idsimport_delete_items_batch_finish',
+		);
+    	foreach($nids as $nid){
+			$batch['operations'][] = array('idsimport_delete_items_batch_process', array($nid));
+		}
+		batch_set($batch);
     }
     elseif (array_key_exists($type, $vocabularies)) {
       $tids = idsimport_get_tids_vocabulary($type);
@@ -491,6 +505,24 @@ function idsimport_delete_items_type($types) {
       }
     }
   }
+}
+
+/*
+ * Batch process delete IDS nodes
+ */
+function idsimport_delete_items_batch_process($nid, &$context){
+	$count = variable_get('idsimport_delete_items_batch_process_count', 0);
+	variable_set('idsimport_delete_items_batch_process_count', ++$count);
+	//drupal_set_message('delete node: ' . $nid);
+	node_delete($nid); 
+}
+
+/*
+ * Batch process finish deleting nodes
+ */
+function idsimport_delete_items_batch_finish(){
+	$count = variable_get('idsimport_delete_items_batch_process_count', 0);
+	drupal_set_message($count . ' IDS imported items deleted');
 }
 
 /**
