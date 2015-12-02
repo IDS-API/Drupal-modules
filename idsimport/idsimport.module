@@ -686,7 +686,8 @@ function idsimport_taxonomy_term($category, $vid, $source) {
     $hash = $processor->generateHash($term);
     $processor->newIdsItemInfo($term, $source->feed_nid, $hash);
     $term->feeds_item->entity_id = $term->tid;
-    $term->feeds_item->guid = $category->object_id;
+    //$term->feeds_item->guid = $category->object_id;
+    $term->feeds_item->guid = $category->guid;
     feeds_item_info_save($term, $term->tid);
   }
   return $term->tid;

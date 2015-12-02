@@ -248,6 +248,10 @@ class IdsDocumentsParser extends FeedsParser {
    */
   public function getMappingSources() {
     return array(
+      'guid' => array(
+        'name' => t('Global Unique ID'),
+        'description' => t('Unique identifier of this object including site (for example, bridge-A1417).'),
+      ),
       'object_id' => array(
         'name' => t('Object ID'),
         'description' => t('Unique identifier of this object (for example, A1417).'),
@@ -365,6 +369,7 @@ class IdsDocumentsParser extends FeedsParser {
       $results = $response->getResults();
       foreach($results as $asset) {
         $item = array(
+          'guid' => $asset->site . '-' . $asset->object_id,          
           'object_id' => $asset->object_id,
           'object_type' => $asset->object_type,
           'title' => $asset->title,
@@ -409,6 +414,10 @@ class IdsOrganisationsParser extends FeedsParser {
    */
   public function getMappingSources() {
     return array(
+      'guid' => array(
+        'name' => t('Global Unique ID'),
+        'description' => t('Unique identifier of this object including site (for example, bridge-A1417).'),
+      ),
       'object_id' => array(
         'name' => t('Object ID'),
         'description' => t('Unique identifier of this object (for example, A1417).'),
@@ -514,6 +523,7 @@ class IdsOrganisationsParser extends FeedsParser {
       $results = $response->getResults();
       foreach($results as $asset) {
         $item = array(
+          'guid' => $asset->site . '-' . $asset->object_id,
           'object_id' => $asset->object_id,
           'object_type' => $asset->object_type,
           'title' => $asset->title,
@@ -553,6 +563,10 @@ class IdsCategoriesParser extends FeedsParser {
 
   public function getMappingSources() {
     return array(
+      'guid' => array(
+        'name' => t('Global Unique ID'),
+        'description' => t('Unique identifier of this object including site (for example, bridge-A1417).'),
+      ),
       'name' => array(
         'name' => t('Name'),
         'description' => t('Name of the category.'),
@@ -614,6 +628,7 @@ class IdsCategoriesParser extends FeedsParser {
       $results = $response->getResults();
       foreach($results as $category) {
         $item = array(
+          'guid' => $category->site . '-' . $category->object_id,
           'name' => $category->name,
           'title' => $category->title,
           'category_id' => $category->category_id,
@@ -656,6 +671,10 @@ class IdsCountriesParser extends FeedsParser {
    */
   public function getMappingSources() {
     return array(
+      'guid' => array(
+        'name' => t('Global Unique ID'),
+        'description' => t('Unique identifier of this object including site (for example, bridge-A1417).'),
+      ),
       'object_id' => array(
         'name' => t('Object ID'),
         'description' => t('Unique identifier of this object (for example, A1417).'),
@@ -725,6 +744,7 @@ class IdsCountriesParser extends FeedsParser {
       $results = $response->getResults();
       foreach($results as $country) {
         $item = array(
+          'guid' => $country->site . '-' . $country->object_id,
           'object_id' => $country->object_id,
           'object_type' => $country->object_type,
           'title' => $country->title,

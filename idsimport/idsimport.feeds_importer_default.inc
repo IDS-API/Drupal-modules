@@ -56,7 +56,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           4 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1
           ),
@@ -213,7 +213,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           4 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1
           ),
@@ -342,7 +342,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           2 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1
           ),
@@ -445,7 +445,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           2 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1
           ),
@@ -549,7 +549,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE
           ),
           2 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1
           ),
@@ -703,7 +703,7 @@ function idsimport_feeds_importer_default()
             'unique' => FALSE,
           ),
           12 => array(
-            'source' => 'object_id',
+            'source' => 'guid',
             'target' => 'guid',
             'unique' => 1,
           ),
