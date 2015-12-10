@@ -570,7 +570,12 @@ function idsimport_set_categories($object_ids, $categories) {
     return FALSE;
   }
   foreach ($categories as $type_category => $categories_assets) {
-    $vocabulary_machine_name = 'ids_' . $type_category;
+   	if(variable_get('idsimport_dataset_taxonomies_defined', 0)){
+  		$dataset = variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET);
+  		$vocabulary_machine_name = 'ids_' . $dataset . '_' . $type_category;
+  	} else {
+  		$vocabulary_machine_name = 'ids_' . $type_category;
+  	}
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name)) {
       $vid = $vocabulary->vid;
       $importers = idsimport_feeds_importer_default();

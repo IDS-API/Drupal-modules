@@ -40,6 +40,18 @@ function idsimport_settings_form() {
     '#default_value' => variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET),
     '#description' => t('IDS dataset to be used by default.'),
   );
+  
+  $form['general']['idsimport_dataset_taxonomies_defined'] = array(
+    '#title' => t('Dataset Taxonomies Defined'),
+    '#type' => 'select',
+    '#options' => array(
+      0 => 'No',
+      1 => 'Yes',
+    ),
+    '#required' => TRUE,
+    '#default_value' => variable_get('idsimport_dataset_taxonomies_defined', 0),
+    '#description' => t('If own taxonomies have been defined for each dataset with machine name form ids_dataset_type e.g. ids_bridge_themes then when importing documents/organisations these will be the populated taxonomies rather than the default ids_type taxonomies.'),
+  );
 
   $form['general']['assets'] = array (
     '#type' => 'fieldset',
