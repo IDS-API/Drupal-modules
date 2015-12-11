@@ -28,11 +28,13 @@ function idsimport_feeds_after_import($source) {
 }
 
 function idsimport_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id){
-  if (($entity->type == 'ids_document') || ($entity->type == 'ids_organisation') || ($entity->type == 'ids_countries')) {
-    $items = array();
-    $items[] = $item;
-	idsimport_imported_assets_categories($items);
-  }
+  if(isset($entity->type)){
+		if (($entity->type == 'ids_document') || ($entity->type == 'ids_organisation') || ($entity->type == 'ids_countries')) {
+	    $items = array();
+	    $items[] = $item;
+		idsimport_imported_assets_categories($items);
+	  }
+   }
 }
 
 /**
