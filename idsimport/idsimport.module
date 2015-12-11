@@ -569,9 +569,9 @@ function idsimport_set_categories($object_ids, $categories) {
     watchdog('idsimport', 'The nodes/terms corresponding to the imported items could not be loaded.', array('!object_ids' => $object_ids), WATCHDOG_ALERT);
     return FALSE;
   }
+  $dataset = (variable_get('idsimport_dataset_taxonomies_defined', 0)) ? variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET):'';
   foreach ($categories as $type_category => $categories_assets) {
-   	if(variable_get('idsimport_dataset_taxonomies_defined', 0)){
-  		$dataset = variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET);
+      if($dataset && $type_category != 'countries'){
   		$vocabulary_machine_name = 'ids_' . $dataset . '_' . $type_category;
   	} else {
   		$vocabulary_machine_name = 'ids_' . $type_category;
@@ -579,7 +579,7 @@ function idsimport_set_categories($object_ids, $categories) {
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name)) {
       $vid = $vocabulary->vid;
       $importers = idsimport_feeds_importer_default();
-      $type_importer = $vocabulary_machine_name . '_importer';
+      $type_importer = 'ids_' . $type_category . '_importer';
       $importer = $importers[$type_importer];
       $feed_type = $importer->config['content_type'];
       $feed_nids = idsimport_get_nids_type($feed_type);
@@ -626,6 +626,9 @@ function idsimport_set_categories($object_ids, $categories) {
           foreach ($new_tids[$object_id][$type_category] as $tid){
             $new_tid = array('tid' => $tid);
             $field = 'field_' . $type_category;
+            if($dataset && $type_category != 'countries'){
+                $field = 'field_' . $dataset . '_' . $type_category;
+            }
             $entity_id = $assets[$object_id]->entity_id;
             $entity_type = $assets[$object_id]->entity_type;
             $entity = $entities[$entity_type][$entity_id];
@@ -692,7 +695,9 @@ function idsimport_taxonomy_term($category, $vid, $source) {
     $processor->newIdsItemInfo($term, $source->feed_nid, $hash);
     $term->feeds_item->entity_id = $term->tid;
     //$term->feeds_item->guid = $category->object_id;
-    $term->feeds_item->guid = $category->guid;
+    $dataset = variable_get('idsimport_default_dataset', IDS_API_DEFAULT_DATASET);
+    $guid = $dataset . '-' . $category->object_id;
+    $term->feeds_item->guid = $guid;
     feeds_item_info_save($term, $term->tid);
   }
   return $term->tid;
