@@ -7,6 +7,7 @@
  * creating new vocabulary terms for imported assets' categories.
  */
 function idsimport_feeds_after_import($source) {
+	//drupal_set_message("idsimport_feeds_after_import");
   $processor = $source->importer->processor;
   $parser = $source->importer->parser;
   if ($parser instanceOf IdsCategoriesParser) {
@@ -17,8 +18,20 @@ function idsimport_feeds_after_import($source) {
   }
   elseif (($parser instanceOf IdsDocumentsParser) || ($parser instanceOf IdsOrganisationsParser) || ($parser instanceOf IdsCountriesParser)) {
     if ($items = $processor->parsed_items) {
-      idsimport_imported_assets_categories($items);
+      /* Joe McP -- commented out line below and moved to hook_feeds_after_save as when in batch process 
+       * that is called after saving every item, but hook_feeds_after_import
+       * is only called on last batch run (so wasn't saving themes etc...)
+       */
+      //idsimport_imported_assets_categories($items);
     }
+  }
+}
+
+function idsimport_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id){
+  if (($entity->type == 'ids_document') || ($entity->type == 'ids_organisation') || ($entity->type == 'ids_countries')) {
+    $items = array();
+    $items[] = $item;
+	idsimport_imported_assets_categories($items);
   }
 }
 
